@@ -13,7 +13,7 @@ description: "Welcome to my personal digital spot"
 
 <div style="text-align: center;">
   <img 
-    src="/marcoschipani.github.io/assets/paesaggio.png"
+    src="/marcoschipani.github.io/paesaggio.png"
     alt="Paesaggio" 
     style="width: 100%; max-width: 650px; height: auto; border-radius: 8px; border: 2px solid #555;"
   />
