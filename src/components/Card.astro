@@ -1,7 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { slugifyStr } from "@/utils/slugify";
-import { getPath } from "@/utils/getPath";
 import Datetime from "./Datetime.astro";
 
 interface Props {
@@ -11,13 +10,20 @@ interface Props {
   filePath?: string;
 }
 
-const { variant: Heading = "h2", id, data, filePath } = Astro.props;
+const { variant: Heading = "h2", id, data } = Astro.props;
 const { title, description, ...props } = data;
+
+// 1. Recuperiamo la base (es. /marcoschipani.github.io)
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+// 2. Costruiamo il link manualmente usando lo slug per evitare che getPath sbagli
+// AstroPaper solitamente usa l'id del file come slug
+const postHref = `${base}/posts/${id.replace(/\.[^/.]+$/, "")}/`;
 ---
 
 <li class="my-12 border-b border-border/40 pb-10 last:border-none list-none">
   <a
-    href={getPath(id, filePath)}
+    href={postHref}
     class="group inline-block focus-visible:no-underline focus-visible:underline-offset-0"
   >
     <Heading
@@ -38,7 +44,7 @@ const { title, description, ...props } = data;
 
   <div class="mt-4">
     <a 
-      href={getPath(id, filePath)}
+      href={postHref}
       class="inline-flex items-center gap-1 text-sm font-bold uppercase tracking-wider border-b-2 border-accent pb-0.5 hover:text-accent/80 transition-all"
     >
       Read full story
@@ -48,60 +54,3 @@ const { title, description, ...props } = data;
     </a>
   </div>
 </li>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{/*
-
----
-import type { CollectionEntry } from "astro:content";
-import { slugifyStr } from "@/utils/slugify";
-import { getPath } from "@/utils/getPath";
-import Datetime from "./Datetime.astro";
-
-type Props = {
-  variant?: "h2" | "h3";
-} & CollectionEntry<"blog">;
-
-const { variant: Heading = "h2", id, data, filePath } = Astro.props;
-
-const { title, description, ...props } = data;
----
-
-<li class="my-6">
-  <a
-    href={getPath(id, filePath)}
-    class:list={[
-      "inline-block text-lg font-medium text-accent",
-      "decoration-dashed underline-offset-4 hover:underline",
-      "focus-visible:no-underline focus-visible:underline-offset-0",
-    ]}
-  >
-    <Heading
-      style={{ viewTransitionName: slugifyStr(title.replaceAll(".", "-")) }}
-    >
-      {title}
-    </Heading>
-  </a>
-  <Datetime {...props} />
-  <p>{description}</p>
-</li>
-
-*/}
