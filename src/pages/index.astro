@@ -75,7 +75,10 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
     <div class="flex flex-col gap-1">
       <div class="flex items-center justify-between">
         <div class="flex h-8 w-8 items-center justify-center rounded bg-white p-1">
-          <img src="/EYlogo.svg" alt="EY Logo" class="h-full w-full object-contain" />
+          <img 
+              src={`${import.meta.env.BASE_URL}/EYlogo.svg`} 
+              alt="EY Logo" 
+              class="h-full w-full object-contain" />
         </div>
         <span class="text-sm font-mono opacity-50">Sep 2025 — Present</span>
       </div>
@@ -93,7 +96,11 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
         <div class="flex h-8 w-8 items-center justify-center rounded bg-white p-1">
-          <img src="/gallo.png" alt="gallo" style="width:30px; height:auto;" />
+          <img 
+            src={`${import.meta.env.BASE_URL}/gallo.png`} 
+            alt="gallo" 
+            style="width:30px; height:auto;"
+          />
         </div>
           <span class="text-xl font-bold">Universitat de València</span>
         </div>
@@ -113,7 +120,11 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
           <div class="flex h-8 w-8 items-center justify-center rounded bg-white p-1">
-          <img src="/Dijon.svg" alt="dijon" style="width:150px; height:auto;" />
+          <img 
+            src={`${import.meta.env.BASE_URL}/Dijon.svg`} 
+            alt="dijon" 
+            style="width:150px; height:auto;"
+           />
         </div>
           <span class="text-xl font-bold">Université de Bourgogne</span>
         </div>
