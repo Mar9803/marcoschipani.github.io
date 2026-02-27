@@ -1,6 +1,6 @@
 ---
-author: SITE.author
-pubDatetime: 2026-02-27T10:00:00Z
+author: "Marco Schipani"
+pubDatetime: 2026-02-01T10:00:00Z
 title: "Post 0: Welcome to my Digital Garden 🌿"
 postSlug: welcome-digital-garden
 featured: true
@@ -11,15 +11,15 @@ tags:
 description: "Welcome to my personal digital spot"
 ---
 
-<figure>
-  <div style="text-align: center;">
+<div style="text-align: center;">
   <img 
-    src="/marcoschipani.github.io/assets/paesaggio.png" 
-    alt="Un-aesaggio" 
-    style="width: 650px; height: 550px; object-fit: cover; border-radius: 8px; border: 2px solid var(--color-accent);"
+    src={`${import.meta.env.BASE_URL}/assets/paesaggio.png`}
+    alt="Paesaggio" 
+    style="width: 100%; max-width: 650px; height: auto; border-radius: 8px; border: 2px solid #555;"
   />
 </div>
-</figure>
+
+
  
 ### What to expect? 🗺️
 
