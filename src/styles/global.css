@@ -12,6 +12,7 @@ html[data-theme="light"] {
   --border: #ece9e9;
 }
 
+{/* COLORE BLU
 html[data-theme="dark"] {
   --background: #212737;
   --foreground: #eaedf3;
@@ -19,6 +20,19 @@ html[data-theme="dark"] {
   --muted: #343f60;
   --border: #ab4b08;
 }
+*/}
+
+html[data-theme="dark"] {
+  --background: #101011;
+  --foreground: #eaedf3;
+  --accent: #82827ee4;
+  --muted: #1a1a1a;
+  --border: #333333;
+}
+
+
+
+
 
 @theme inline {
   --font-app: var(--font-google-sans-code);

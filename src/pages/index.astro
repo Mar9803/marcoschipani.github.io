@@ -22,10 +22,12 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
 <Layout>
   <Header />
   <main id="main-content" data-layout="index" class="app-layout">
-    <section id="hero" class:list={["pt-8 pb-6", "border-b border-border"]}>
+    <section id="hero" class:list={["pt-8 pb-6"]}>
       <h1 class="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
-        Mingalaba
+        Hi there 👋, I am Marco 
       </h1>
+      {/*---------------------- 
+        SE VUOI METTERE L'ICONA DEL WIFI CHE INVIA AGLI UTLIIMI POST 
       <a
         target="_blank"
         href="/rss.xml"
@@ -40,22 +42,18 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
         />
         <span class="sr-only">RSS Feed</span>
       </a>
+      ---------------------
+      */}
 
-      <p>
-        AstroPaper is a minimal, responsive, accessible and SEO-friendly Astro
-        blog theme. This theme follows best practices and provides accessibility
-        out of the box. Light and dark mode are supported by default. Moreover,
-        additional color schemes can also be configured.
-      </p>
-      <p class="mt-2">
-        Read the blog posts or check
-        <LinkButton
-          class="underline decoration-dashed underline-offset-4 hover:text-accent"
-          href="https://github.com/satnaing/astro-paper#readme"
-        >
-          README
-        </LinkButton> for more info.
-      </p>
+      {/*
+      Frase ceh si sscrive dinamicamente in prima pagina
+      */}
+      <div class="mt-4 min-h-[1.5em] text-xl md:text-2xl font-bold tracking-tight text-accent">
+      <span id="typewriter"></span>
+      <span id="cursor" class="ml-1 border-l-2 border-accent animate-pulse"></span>
+    </div>
+
+
       {
         // only display if at least one social link is enabled
         SOCIALS.length > 0 && (
@@ -66,6 +64,118 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
         )
       }
     </section>
+{/*
+------------------------------SEZIONE AGGIUNTA DA ME
+*/}
+
+<section id="experience" class="pt-10 pb-6 border-b border-border/50">
+  <h2 class="text-2xl font-semibold tracking-wide">Experience</h2>
+  
+  <div class="mt-8 space-y-10">
+    <div class="flex flex-col gap-1">
+      <div class="flex items-center justify-between">
+        <div class="flex h-8 w-8 items-center justify-center rounded bg-white p-1">
+          <img src="/EYlogo.svg" alt="EY Logo" class="h-full w-full object-contain" />
+        </div>
+        <span class="text-sm font-mono opacity-50">Sep 2025 — Present</span>
+      </div>
+      <p class="text-lg italic tracking-tight">SOC Analyst (L1)</p>
+      <p class="text-base md:text-lg leading-relaxed text-foreground/70 max-w-2xl">
+        Monitoring security events, performing log analysis, and
+        supporting incident response activities within the SOC
+        environment. Gaining hands-on experience with SIEM tools,
+        workbook and playbook implementation for automation.
+        Exploring Python and Bash scripting.
+      </p>
+    </div>
+
+    <div class="flex flex-col gap-1 border-t border-border/50 pt-8">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+        <div class="flex h-8 w-8 items-center justify-center rounded bg-white p-1">
+          <img src="/gallo.png" alt="gallo" style="width:30px; height:auto;" />
+        </div>
+          <span class="text-xl font-bold">Universitat de València</span>
+        </div>
+        <span class="text-sm font-mono opacity-50">2023 — 2024</span>
+      </div>
+      <p class="text-lg italic tracking-tight">Research Student</p>
+      <p class="text-base md:text-lg leading-relaxed text-foreground/70 max-w-2xl">
+        Conducted research on image‐processing techniques focused
+        on the development of algorithms for constructing cubic
+        Hermite interpolants for monotone‐preserving interpolation.
+        Designed and implemented new numerical methods for the
+        bidimensional case.
+      </p>
+    </div>
+
+    <div class="flex flex-col gap-1 border-t border-border/50 pt-8">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="flex h-8 w-8 items-center justify-center rounded bg-white p-1">
+          <img src="/Dijon.svg" alt="dijon" style="width:150px; height:auto;" />
+        </div>
+          <span class="text-xl font-bold">Université de Bourgogne</span>
+        </div>
+        <span class="text-sm font-mono opacity-50">May 2021 — Aug 2011</span>
+      </div>
+      <p class="text-lg italic tracking-tight">Research Student</p>
+      <p class="text-base md:text-lg leading-relaxed text-foreground/70 max-w-2xl">
+        Conducted a quantitative analysis of graph planarity and the
+        structural properties of free groups through Cayley graph
+        representations.Applied combinatorial methods and
+        algorithmic approaches to identify invariant patterns and
+s       ymmetry structures.
+      </p>
+    </div>
+    
+  </div>
+
+{/*
+FINE EXPERIENCE
+*/}
+
+
+{/*
+SEZIONE SKILLS
+*/}
+<section id="skills" class="pt-10 pb-6">
+  <h2 class="text-2xl font-semibold tracking-wide">Skills</h2>
+  
+  <div class="flex flex-wrap gap-3">
+    <div class="px-4 py-2 border border-border/50 bg-muted/30 rounded-md hover:border-accent/50 transition-colors">
+      <span class="font-sans text-sm font-bold">Statistical learning</span>
+    </div>
+
+    <div class="px-4 py-2 border border-border/50 bg-muted/30 rounded-md hover:border-accent/50 transition-colors">
+      <span class="font-sans text-sm font-bold">Fraud Detection Modeling</span>
+    </div>
+
+    <div class="px-4 py-2 border border-border/50 bg-muted/30 rounded-md hover:border-accent/50 transition-colors">
+      <span class="font-sans text-sm font-bold">Log Analysis & Threat Detection</span>
+    </div>
+
+    <div class="px-4 py-2 border border-border/50 bg-muted/30 rounded-md hover:border-accent/50 transition-colors">
+      <span class="font-sans text-sm font-bold">Python</span>
+    </div>
+
+    <div class="px-4 py-2 border border-border/50 bg-muted/30 rounded-md hover:border-accent/50 transition-colors">
+      <span class="font-sans text-sm font-bold">Incident Response</span>
+    </div>
+    
+    <div class="px-4 py-2 border border-border/50 bg-muted/30 rounded-md hover:border-accent/50 transition-colors">
+      <span class="font-sans text-sm font-bold">Threat Hunting</span>
+    </div>
+  </div>
+</section>
+
+
+{/*
+SEZIONI FEATURED E RECENT POSTS: MOSTRALE APPENA HAI UN POST
+*/}
+
+{/*
+</section>
 
     {
       featuredPosts.length > 0 && (
@@ -118,4 +228,63 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
       sessionStorage.setItem("backUrl", "/");
     }
   });
+</script>
+
+*/}
+
+
+{/*
+Questo serve per scriverre la fras dimanica 
+*/}
+<script>
+  function initTypewriter() {
+    const textElement = document.getElementById("typewriter");
+    if (!textElement) return; // Se non trova l'id, si ferma senza rompere il sito
+
+    const phrases = [
+      "I am a mathematician in cyber.",
+      "I am a curious mind.",
+      "I love learning and sharing ideas.",
+      "I solve problems through data."
+    ];
+    
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let typeSpeed = 100;
+
+    function type() {
+      // Dobbiamo ricontrollare se l'elemento esiste ancora (per i cambi pagina rapidi)
+      const currentElement = document.getElementById("typewriter");
+      if (!currentElement) return;
+
+      const currentPhrase = phrases[phraseIndex];
+      
+      if (isDeleting) {
+        currentElement.textContent = currentPhrase.substring(0, charIndex - 1);
+        charIndex--;
+        typeSpeed = 50;
+      } else {
+        currentElement.textContent = currentPhrase.substring(0, charIndex + 1);
+        charIndex++;
+        typeSpeed = 100;
+      }
+
+      if (!isDeleting && charIndex === currentPhrase.length) {
+        isDeleting = true;
+        typeSpeed = 2000;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        typeSpeed = 500;
+      }
+
+      setTimeout(type, typeSpeed);
+    }
+
+    type();
+  }
+
+  // Questo garantisce che funzioni sia al primo avvio che al cambio pagina
+  document.addEventListener("astro:page-load", initTypewriter);
 </script>

@@ -113,6 +113,31 @@ const nextPost =
     >
       <Content />
     </article>
+  {/*
+  Aggiunta codice
+  */}
+  { (post.data.link_url) && (
+      <div class="mt-12 p-6 border border-accent/20 rounded-xl bg-accent/5">
+        <p class="text-sm italic text-accent/80 mb-3">
+          Ti è piaciuto l'articolo?
+        </p>
+        <a 
+          href={post.data.link_url} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 text-xl font-bold text-accent hover:underline underline-offset-8 decoration-2 transition-all"
+        >
+          {post.data.link_name || "Il post su Linkedin"}
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 7h10v10"/><path d="M7 17 17 7"/>
+          </svg>
+        </a>
+      </div>
+    )}
+
+
+
+
 
     <hr class="my-8 border-dashed" />
 
