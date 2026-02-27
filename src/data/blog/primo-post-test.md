@@ -14,7 +14,7 @@ description: "Welcome to my personal digital spot"
 <figure>
   <div style="text-align: center;">
   <img 
-    src="/paesaggio.png" 
+    src="/marcoschipani.github.io/assets/paesaggio.png" 
     alt="Un-aesaggio" 
     style="width: 650px; height: 550px; object-fit: cover; border-radius: 8px; border: 2px solid var(--color-accent);"
   />
