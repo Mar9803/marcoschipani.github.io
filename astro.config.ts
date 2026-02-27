@@ -13,7 +13,8 @@ import { SITE } from "./src/config";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://marcoschipani.github.io",
+  site: "https://mar9803.github.io", 
+  base: "/marcoschipani.github.io",
   integrations: [
     sitemap({
       filter: page => SITE.showArchives || !page.endsWith("/archives"),
