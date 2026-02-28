@@ -15,7 +15,7 @@ description: "Welcome to my personal digital spot"
   <img 
     src="/marcoschipani.github.io/paesaggio.png"
     alt="Paesaggio" 
-    style="width: 100%; max-width: 650px; height: auto; border-radius: 8px; border: 2px solid #555;"
+    style="width: 100%; max-width: 1000px; height: auto; border-radius: 8px; border: 2px solid #555;"
   />
 </div>
 
@@ -26,10 +26,8 @@ description: "Welcome to my personal digital spot"
 A blurry landscape of ideas, trying to come into focus over time. 
 
 **I’ve always loved  the art of the short stories**; all the characters step onto the stage and instantly pull you into their story. They have but a fleeting moment to seize your focus and, depending on their part, provoke hatred, annoyance, or fascination—or simply leave no trace at all.
-I especially love *Tutto in un punto*, from Italo Calvino’s collection *Le Cosmicomiche*. And I think it is enough.
+I especially love *Tutto in un punto*, from Italo Calvino’s collection *Le Cosmicomiche*. And I think it is enough, for now.
 
 
-### Coming Soon... 🏗️
-I'd like to use this spot to share ideas adn learning progresses. See you 🌿 
-
----
+### Coming Soon... 
+I'd like to use this spot to share ideas on my learning path, things I like, and ideas. See you 🌿 
