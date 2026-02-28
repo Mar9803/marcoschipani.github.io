@@ -3,38 +3,33 @@ title: "About Me"
 layout: ../layouts/AboutLayout.astro
 description: "Mathematician, Cyber Analyst and Software Enthusiast."
 ---
-I am a mathematician into Cybersecurity. It is nice to see network defense as a large-scale modeling problem,  where algebra, graph theory, and automation meet to solve real-world security challenges.
+Hello! I am a mathematician into Cybersecurity. It is nice to see network defense as a large-scale modeling problem,  where algebra, graph theory, and automation meet to solve real-world security challenges.
  
 ### Numerical Analysis & Image Processing
-I focused my research experience on the filed of image and signal reconstruction through high-order interpolants. Specifically, I investigated **monotone-preserving** techniques to mitigate non-physical oscillations.
+My research focused on **Numerical Analysis** and **Image Processing**, specifically investigating the reconstruction of surfaces featuring **jump discontinuities** through interpolation. I employed piecewise **monotone-preserving interpolants**, which remain a powerful tool for balancing high-order accuracy with monotonicity. My work centered on constructing interpolants using **custom non-linear means** to recover 2D properties that are typically only guaranteed in the univariate case.
 
-#### The Problem: Accuracy vs. Monotonicity
-The univariate case is well known, and there are elegant results addressing the problem of reconstructing data flows characterized by sudden shocks—or more accurately, jumps—technically referred to as $C^1$ discontinuities.
-
-> **A trade-off:**  Regions with enforced monotonicity constraints typically correspond to lower formal accuracy, and vice versa.
-
-Starting from the 1D studies available in the literature, I focused my research on extending existing properties to the bivariate case. The choice, made at the very beginning, was to adopt **Cubic Hermite Interpolators** for two main reasons:
-
-* **First**: They represent a classic approach to managing discontinuities while preserving the data's shape, a concept widely explored in Computational Fluid Dynamics (CFD) literature.
-* **Second**: By construction, these interpolants depend heavily on the approximation of the derivatives. Therefore, a common approach is to "try-building" diverse derivatives—adopting different means to approximate them—and *voilà*, you have your shape-preserving reconstruction.
-
-As with almost every problem in mathematics, increasing the dimension often destroys the "nice" properties found in lower dimensions. Consequently, in the 2D case, only a few of the necessary and sufficient conditions for the monotonicity of the interpolant proved to be approachable, even from a purely numerical standpoint.
-
-So, the aim was to construct algorithms by adopting different derivative estimators to ensure a reliable and artifact-free reconstruction. I explored the reconstruction of images and general data flows, where the objective is to find interpolants that are **shape-preserving**—specifically monotone-preserving—to eliminate phenomena such as **Gibbs oscillations** (spurious oscillations).
-
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-  <figure>
-    <img src="\public\1D.png" alt="1D" />
-    <figcaption style="font-size: 0.85em; line-height: 1.2; margin-top: 10px;">
-      <strong>1. Univariate Case:</strong> Diverse Non-linear estimators used to reconstruct a function with jumps.
-    </figcaption>
-  </figure>
-  <figure>
-    <img src="\public\2D.png" alt="2D" />
-    <figcaption style="font-size: 0.85em; line-height: 1.2; margin-top: 10px;">
-      <strong>2. Bivariate Case:</strong> Monotone-preserving reconstruction of a 2D surface. 
-    </figcaption>
-  </figure>
+<div style="margin-top: 25px; border-top: 1px solid #333; padding-top: 15px;">
+  <p style="font-size: 0.9rem; color: #888; margin-bottom: 5px; font-style: italic;">
+    Want to know more?
+  </p>
+  <a href="/posts/beyond-the-shocks-2d-reconstruction/" 
+     style="
+      display: inline-flex;
+      align-items: center;
+      color: #1e9aa3;
+      text-decoration: none;
+      font-weight: 600;
+      font-family: monospace;
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+     " 
+     onmouseover="this.style.color='#4fc3f7'; this.style.transform='translateX(5px)';" 
+     onmouseout="this.style.color='#1e9aa3'; this.style.transform='translateX(0)';"
+  >
+    READ THE FULL ARTICLE 
+    <span style="margin-left: 8px; font-size: 1.2rem;">→</span>
+  </a>
 </div>
 
 ### Graph Theory & Anomaly Detection
