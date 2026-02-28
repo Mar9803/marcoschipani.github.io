@@ -85,7 +85,7 @@ Imagine reconstructing the price action or volatility of a stock. If the data un
 Moving to the bivariate case, the core problem remains identical, but the geometric complexity scales exponentially. As is often the case in mathematics, **increasing the dimension often destroys what was discovered or achieved "on the lower floors."** The difficulties here are twofold:
 
 * **Topological Rigidity:** In 1D, monotonicity is a simple "left-to-right" constraint within a single interval. In 2D, we lose this total ordering. A point on a surface is constrained by its neighbors in every direction ($x$, $y$, and diagonally). This creates a topological "grid-lock" where enforcing a constraint in one direction can inadvertently trigger an oscillation in another, making it theoretically daunting to find a universal non-linear mean that works across the entire manifold.
-* **Derivative Approximation:** In 2D, we must approximate partial derivatives $\partial_x$ and $\partial_y$ which were not present in 1D. This process is inherently difficult because the accuracy of the entire surface depends on how these slopes are estimated at the boundaries of each cell. More details in the following section.
+* **Derivative Approximation:** In 2D, we must approximate partial derivatives $\partial_x$ and $\partial_y$ which were not present in 1D. This process is inherently difficult because the accuracy of the entire surface depends on how these slopes are estimated at the boundaries of each cell. More details in the following section. 
 
 ---
 ### 📐 Formal Definition: The Piecewise Bicubic Hermite Polynomial
@@ -104,7 +104,7 @@ In this formulation, $\mathcal{H}_k$ and $\mathcal{G}_k$ are the cardinal cubic 
 * **The "Final Boss" of Numerical Stability:** Approximating these cross-derivatives while maintaining monotonicity is the core challenge. An incorrect estimation of $\partial_{xy}$ is the primary cause of surface distortion; it is the mathematical "glitch" that destroys the shape-preserving property we worked so hard to achieve on the 1D "lower floors."
 ---
 
-### 💡 Final Thoughts: Why This Matters
+### 💡 Final Thoughts: Why This Matters AGGIORNAMENTO
 
 This research isn't just about "cleaner" graphs. In a world driven by data, the ability to **preserve the integrity of a signal** during reconstruction is vital.  Whether it's medical imaging, satellite data, or anomaly detection in cybersecurity, the math remains the same: **distinguishing the real shock from the numerical noise.** 🚀
 
