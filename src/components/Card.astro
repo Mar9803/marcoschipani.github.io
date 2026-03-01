@@ -13,12 +13,15 @@ interface Props {
 const { variant: Heading = "h2", id, data } = Astro.props;
 const { title, description, ...props } = data;
 
-// 1. Recuperiamo la base (es. /marcoschipani.github.io)
+// 1. Puliamo la base assicurandoci che non finisca con /
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 
-// 2. Costruiamo il link manualmente usando lo slug per evitare che getPath sbagli
-// AstroPaper solitamente usa l'id del file come slug
-const postHref = `${base}/posts/${id.replace(/\.[^/.]+$/, "")}/`;
+// 2. Puliamo l'ID (rimuove l'estensione .md o .mdx)
+const cleanId = id.replace(/\.[^/.]+$/, "");
+
+// 3. COSTRUIAMO IL LINK SENZA RADDOPPIARE GLI SLASH
+// Se base è "/" diventerà "/posts/...", se è "/repo" diventerà "/repo/posts/..."
+const postHref = `${base}/posts/${cleanId}/`.replace(/\/+/g, "/");
 ---
 
 <li class="my-12 border-b border-border/40 pb-10 last:border-none list-none">

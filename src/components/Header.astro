@@ -18,11 +18,25 @@ const currentPath =
   pathname.endsWith("/") && pathname !== "/" ? pathname.slice(0, -1) : pathname;
 
 const isActive = (path: string) => {
-  // Aggiunge la base al path per il confronto della classe "active-nav"
-  const fullPath = path === "/" ? base : `${base}${path}`.replace(/\/+$/, "");
+  // 1. Normalizziamo il path in ingresso assicurandoci che inizi con "/"
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  
+  // 2. Costruiamo il percorso completo atteso (Base + Path)
+  // Rimuoviamo lo slash finale per un confronto coerente
+  const expectedPath = `${base}${normalizedPath}`.replace(/\/+$/, "");
+  
+  // 3. Normalizziamo il percorso corrente della pagina
   const normalizedCurrent = currentPath.replace(/\/+$/, "");
   
-  return normalizedCurrent === fullPath || normalizedCurrent.startsWith(fullPath + "/");
+  // 4. Caso speciale per la Home:
+  // Se il path richiesto è "/", deve corrispondere esattamente alla base
+  if (path === "/") {
+    return normalizedCurrent === base.replace(/\/+$/, "") || normalizedCurrent === "";
+  }
+
+  // 5. Per tutte le altre pagine (Posts, Tags, ecc.):
+  // Controlla se l'URL attuale è identico o se è una sotto-pagina (es. /tags/math)
+  return normalizedCurrent === expectedPath || normalizedCurrent.startsWith(expectedPath + "/");
 };
 ---
 

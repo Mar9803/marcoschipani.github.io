@@ -12,15 +12,7 @@ html[data-theme="light"] {
   --border: #ece9e9;
 }
 
-{/* COLORE BLU
-html[data-theme="dark"] {
-  --background: #212737;
-  --foreground: #eaedf3;
-  --accent: #ff6b01;
-  --muted: #343f60;
-  --border: #ab4b08;
-}
-*/}
+
 
 html[data-theme="dark"] {
   --background: #101011;
