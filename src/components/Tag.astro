@@ -8,11 +8,17 @@ type Props = {
 };
 
 const { tag, tagName, size = "lg" } = Astro.props;
+
+// Recuperiamo la base (es. /marcoschipani.github.io)
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+// Costruiamo il link includendo la base e pulendo eventuali doppi slash
+const tagHref = `${base}/tags/${tag}/`.replace(/\/+/g, "/");
 ---
 
 <li class="inline-block">
   <a
-    href={`/tags/${tag}/`}
+    href={tagHref}
     transition:name={tag}
     class:list={[
       "flex items-center gap-1 transition-all duration-300",

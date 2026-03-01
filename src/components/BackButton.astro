@@ -2,6 +2,11 @@
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
 import LinkButton from "./LinkButton.astro";
 import { SITE } from "@/config";
+
+// Recuperiamo la base dal config (es. /marcoschipani.github.io)
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+// Se base è vuoto, usa "/" come fallback
+const fallbackUrl = base || "/";
 ---
 
 {
@@ -9,7 +14,7 @@ import { SITE } from "@/config";
     <div class="app-layout flex items-center justify-start">
       <LinkButton
         id="back-button"
-        href="/"
+        href={fallbackUrl}
         class="focus-outline -ms-2 mt-8 mb-2 hover:text-foreground/75"
       >
         <IconChevronLeft class="inline-block size-6 rtl:rotate-180" />
@@ -19,19 +24,24 @@ import { SITE } from "@/config";
   )
 }
 
-<script>
-  /* Update Search Praam */
+<script is:inline define:vars={{ fallbackUrl }}>
   function updateGoBackUrl() {
-    const backButton: HTMLAnchorElement | null =
-      document.querySelector("#back-button");
+    const backButton = document.querySelector("#back-button");
+    if (!backButton) return;
 
+    // Recupera l'URL dalla sessione (se l'utente viene da una pagina interna)
     const backUrl = sessionStorage.getItem("backUrl");
 
-    if (backUrl && backButton) {
+    // Se esiste un URL salvato e non è la pagina corrente, usalo. 
+    // Altrimenti usa il fallbackUrl calcolato da Astro (la tua Home corretta).
+    if (backUrl && backUrl !== window.location.href) {
       backButton.href = backUrl;
+    } else {
+      backButton.href = fallbackUrl;
     }
   }
 
-  document.addEventListener("astro:page-load", updateGoBackUrl);
+  // Esegui al caricamento e dopo ogni transizione di pagina
+  document.addEventListener("astro:after-swap", updateGoBackUrl);
   updateGoBackUrl();
 </script>
