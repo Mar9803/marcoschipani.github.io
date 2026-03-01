@@ -82,3 +82,24 @@ html[data-theme="dark"] {
 :target {
   scroll-margin-block: 1rem;
 }
+
+/* Custom Styles for KaTeX Equations */
+.katex-display, .katex {
+  /* Utilizziamo la variabile --foreground che hai già definito per il tema */
+  color: var(--foreground) !important;
+  opacity: 1 !important;
+}
+
+/* Assicura che anche i simboli matematici standard seguano il colore del tema */
+.katex .mathnormal, 
+.katex .amsrm, 
+.katex .mainrm {
+  color: var(--foreground) !important;
+}
+
+/* Opzionale: aggiunge un po' di spazio sopra e sotto il div della formula */
+div.math-formula {
+  margin: 2rem 0;
+  overflow-x: auto; /* Evita che formule lunghe rompano il layout su mobile */
+  scrollbar-width: thin;
+}

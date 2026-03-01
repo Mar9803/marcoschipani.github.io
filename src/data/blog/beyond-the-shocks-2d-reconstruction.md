@@ -94,9 +94,14 @@ To ground our discussion in mathematical rigor, let us define the interpolant on
 
 Using the local normalized coordinates $u = \frac{x - x_i}{h_x}$ and $v = \frac{y - y_j}{h_y}$ (where $u, v \in [0, 1]$), the functional form is expressed through the **Kronecker product** of univariate cubic Hermite basis functions:
 
-$$S(x, y) = \sum_{i=0}^1 \sum_{j=0}^1 \left[ f_{i,j} \mathcal{H}_i(u) \mathcal{H}_j(v) + \partial_x f_{i,j} \mathcal{G}_i(u) \mathcal{H}_j(v) + \partial_y f_{i,j} \mathcal{H}_i(u) \mathcal{G}_j(v) + \partial_{xy} f_{i,j} \mathcal{G}_i(u) \mathcal{G}_j(v) \right]$$
-
-
+<div class="math-formula">
+$$
+\begin{aligned}
+S(x, y) = \sum_{i=0}^1 \sum_{j=0}^1 \Big[ & f_{i,j} \mathcal{H}_i(u) \mathcal{H}_j(v) + \partial_x f_{i,j} \mathcal{G}_i(u) \mathcal{H}_j(v) + \\
+& \partial_y f_{i,j} \mathcal{H}_i(u) \mathcal{G}_j(v) + \partial_{xy} f_{i,j} \mathcal{G}_i(u) \mathcal{G}_j(v) \Big]
+\end{aligned}
+$$
+</div>
 
 In this formulation, $\mathcal{H}_k$ and $\mathcal{G}_k$ are the cardinal cubic splines that satisfy the Hermite conditions. While the 1D case is a straightforward $C^1$ cubic spline, the 2D transition introduces a significant jump in complexity:
 
@@ -104,8 +109,7 @@ In this formulation, $\mathcal{H}_k$ and $\mathcal{G}_k$ are the cardinal cubic 
 * **The "Final Boss" of Numerical Stability:** Approximating these cross-derivatives while maintaining monotonicity is the core challenge. An incorrect estimation of $\partial_{xy}$ is the primary cause of surface distortion; it is the mathematical "glitch" that destroys the shape-preserving property we worked so hard to achieve on the 1D "lower floors."
 ---
 
-### 💡 Final Thoughts: Why This Matters AGGIORNAMENTO
+### 💡 Final Thoughts: Why This Matters
 
 This research isn't just about "cleaner" graphs. In a world driven by data, the ability to **preserve the integrity of a signal** during reconstruction is vital.  Whether it's medical imaging, satellite data, or anomaly detection in cybersecurity, the math remains the same: **distinguishing the real shock from the numerical noise.** 🚀
 
----

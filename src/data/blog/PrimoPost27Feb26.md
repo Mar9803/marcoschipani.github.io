@@ -19,7 +19,6 @@ description: "Welcome to my personal digital spot"
   />
 </div>
 
-
  
 ### What to expect? 🗺️
 
