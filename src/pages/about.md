@@ -12,7 +12,7 @@ My research focused on **Numerical Analysis** and **Image Processing**, specific
   <p style="font-size: 0.9rem; color: #888; margin-bottom: 5px; font-style: italic;">
     Want to know more?
   </p>
-  <a href="/posts/beyond-the-shocks-2d-reconstruction/" 
+  <a href="/marcoschipani.github.io/posts/beyond-the-shocks-2d-reconstruction/"
      style="
       display: inline-flex;
       align-items: center;
