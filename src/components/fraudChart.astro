@@ -1,0 +1,40 @@
+---
+# Qui puoi passare props se vuoi
+---
+<div class="bg-gray-900 p-6 rounded-2xl shadow-xl border border-gray-800">
+    <h3 class="text-white text-lg font-semibold mb-4">Risk Distribution</h3>
+    <canvas id="sentinelChart"></canvas>
+</div>
+
+<script>
+    import Chart from 'chart.js/auto';
+
+    async function loadChart() {
+        try {
+            // Chiamata al tuo container Docker (Backend)
+            const res = await fetch('http://localhost:8000/api/stats');
+            const data = await res.json();
+            
+            const ctx = document.getElementById('sentinelChart') as HTMLCanvasElement;
+            
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(data.risk_levels),
+                    datasets: [{
+                        data: Object.values(data.risk_levels),
+                        backgroundColor: ['#10B981', '#F59E0B', '#EF4444'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    plugins: { legend: { labels: { color: 'white' } } }
+                }
+            });
+        } catch (e) {
+            console.error("Backend non raggiungibile", e);
+        }
+    }
+
+    loadChart();
+</script>
