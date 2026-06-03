@@ -7,36 +7,34 @@ import { SITE } from "@/config";
 
 const API_URL =
   import.meta.env.PUBLIC_SENTINEL_EMBED_URL || "http://127.0.0.1:8000";
-const embedEndpoint = `${API_URL.replace(/\/$/, "")}/dashboard/embed`;
+const embedUrl = `${API_URL.replace(/\/$/, "")}/dashboard/embed`;
 
-let embedHtml = "";
+let dashboardHtml = "Errore caricamento simulatore";
 try {
-  const res = await fetch(embedEndpoint);
+  const res = await fetch(embedUrl);
   if (res.ok) {
-    embedHtml = await res.text();
+    dashboardHtml = await res.text();
   } else {
-    embedHtml = `<p class="text-red-500">Errore nel caricamento del frammento (Status: ${res.status})</p>`;
+    dashboardHtml = `<p class="text-red-500">Errore caricamento simulatore (Status: ${res.status})</p>`;
   }
 } catch {
-  embedHtml = `
+  dashboardHtml = `
     <div class="rounded-2xl border border-red-200/30 bg-red-950/20 p-6 text-center">
-      <p class="text-lg font-bold text-red-400">🛡️ Backend SentinelGraph Offline</p>
-      <p class="mt-2 text-sm text-foreground/60">Avvia il server Python con: <code class="rounded bg-muted/50 px-1.5 py-0.5 font-mono text-xs">uvicorn app.main:app --reload</code> sulla porta 8000 per attivare la simulazione live.</p>
+      <p class="text-lg font-bold text-red-400">Backend SentinelGraph offline</p>
+      <p class="mt-2 text-sm text-foreground/60">Avvia il server con <code class="rounded bg-muted/50 px-1.5 py-0.5 font-mono text-xs">uvicorn app.main:app --reload</code> sulla porta 8000.</p>
     </div>
   `;
 }
-
-const backUrl = SITE.showBackButton ? Astro.url.pathname : "/";
 ---
 
 <Layout
   title={`SentinelGraph | ${SITE.title}`}
-  description="Antifraud simulation dashboard — model battle, risk metrics, and SentinelGraph live demo."
+  description="Antifraud Live Simulator — model battle, risk metrics, and SentinelGraph demo."
 >
   <Header />
   <Main
     pageTitle="SentinelGraph"
-    pageDesc="Antifraud lab: live dashboard fragment loaded from the Sentinel FastAPI backend."
+    pageDesc="Antifraud lab: dynamic live simulator powered by the Sentinel FastAPI backend."
   >
     <section
       class="space-y-6 border-b border-border/50 pb-8"
@@ -48,8 +46,7 @@ const backUrl = SITE.showBackButton ? Astro.url.pathname : "/";
       <p class="max-w-2xl text-base leading-relaxed text-foreground/70 md:text-lg">
         SentinelGraph compares fraud-detection models beyond raw accuracy — F1,
         recall, and explainability matter when the cost of a missed fraud is
-        asymmetric. Start the FastAPI backend locally, then explore the live
-        dashboard below.
+        asymmetric. Avvia il backend locale per usare il simulatore sotto.
       </p>
       <div class="flex flex-wrap gap-3">
         <div
@@ -65,21 +62,15 @@ const backUrl = SITE.showBackButton ? Astro.url.pathname : "/";
       </div>
     </section>
 
-    <section class="pt-8" aria-labelledby="sentinel-dashboard">
-      <h2 id="sentinel-dashboard" class="text-2xl font-semibold tracking-wide">
-        Live dashboard
+    <section class="pt-8" aria-labelledby="sentinel-simulator">
+      <h2 id="sentinel-simulator" class="text-2xl font-semibold tracking-wide">
+        Live Simulator
       </h2>
-      <p class="mt-2 mb-4 text-sm text-foreground/60">
-        Source: <code class="rounded bg-muted/50 px-1.5 py-0.5 font-mono text-xs">{embedEndpoint}</code>
-      </p>
-
       <div
-        id="sentinel-embed"
-        class="overflow-hidden rounded-md border border-border/50 bg-muted/20"
-        data-backurl={backUrl}
-      >
-        <div id="sentinel-root" set:html={embedHtml} />
-      </div>
+        id="sentinel-simulator-container"
+        class="mt-6 min-h-[24rem] overflow-hidden rounded-md border border-border/50 bg-muted/20"
+        set:html={dashboardHtml}
+      />
     </section>
   </Main>
   <Footer />
@@ -88,26 +79,8 @@ const backUrl = SITE.showBackButton ? Astro.url.pathname : "/";
 <script src="https://unpkg.com/htmx.org@2.0.4" is:inline></script>
 <script is:inline>
   function setupSentinelDashboard() {
-    const root = document.getElementById("sentinel-root");
+    const root = document.getElementById("sentinel-simulator-container");
     if (root && window.htmx) {
-      const backendBase = "http://127.0.0.1:8000";
-
-      root.querySelectorAll("[hx-post]").forEach(el => {
-        let currentPath = el.getAttribute("hx-post");
-        if (currentPath && !currentPath.startsWith("http")) {
-          currentPath = currentPath.replace(/^[:/]+/, "");
-          el.setAttribute("hx-post", backendBase + "/" + currentPath);
-        }
-      });
-
-      root.querySelectorAll("[hx-get]").forEach(el => {
-        let currentPath = el.getAttribute("hx-get");
-        if (currentPath && !currentPath.startsWith("http")) {
-          currentPath = currentPath.replace(/^[:/]+/, "");
-          el.setAttribute("hx-get", backendBase + "/" + currentPath);
-        }
-      });
-
       window.htmx.process(root);
     }
   }
