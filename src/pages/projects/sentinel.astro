@@ -81,6 +81,7 @@ try {
   function setupSentinelDashboard() {
     const root = document.getElementById("sentinel-simulator-container");
     if (root && window.htmx) {
+      window.htmx.config.selfRequestsOnly = false;
       window.htmx.process(root);
     }
   }
