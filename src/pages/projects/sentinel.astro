@@ -1,0 +1,117 @@
+---
+import Main from "@/layouts/Main.astro";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import { SITE } from "@/config";
+
+const API_URL =
+  import.meta.env.PUBLIC_SENTINEL_EMBED_URL || "http://127.0.0.1:8000";
+const embedEndpoint = `${API_URL.replace(/\/$/, "")}/dashboard/embed`;
+
+let embedHtml = "";
+try {
+  const res = await fetch(embedEndpoint);
+  if (res.ok) {
+    embedHtml = await res.text();
+  } else {
+    embedHtml = `<p class="text-red-500">Errore nel caricamento del frammento (Status: ${res.status})</p>`;
+  }
+} catch {
+  embedHtml = `
+    <div class="rounded-2xl border border-red-200/30 bg-red-950/20 p-6 text-center">
+      <p class="text-lg font-bold text-red-400">🛡️ Backend SentinelGraph Offline</p>
+      <p class="mt-2 text-sm text-foreground/60">Avvia il server Python con: <code class="rounded bg-muted/50 px-1.5 py-0.5 font-mono text-xs">uvicorn app.main:app --reload</code> sulla porta 8000 per attivare la simulazione live.</p>
+    </div>
+  `;
+}
+
+const backUrl = SITE.showBackButton ? Astro.url.pathname : "/";
+---
+
+<Layout
+  title={`SentinelGraph | ${SITE.title}`}
+  description="Antifraud simulation dashboard — model battle, risk metrics, and SentinelGraph live demo."
+>
+  <Header />
+  <Main
+    pageTitle="SentinelGraph"
+    pageDesc="Antifraud lab: live dashboard fragment loaded from the Sentinel FastAPI backend."
+  >
+    <section
+      class="space-y-6 border-b border-border/50 pb-8"
+      aria-labelledby="sentinel-overview"
+    >
+      <h2 id="sentinel-overview" class="text-2xl font-semibold tracking-wide">
+        Project overview
+      </h2>
+      <p class="max-w-2xl text-base leading-relaxed text-foreground/70 md:text-lg">
+        SentinelGraph compares fraud-detection models beyond raw accuracy — F1,
+        recall, and explainability matter when the cost of a missed fraud is
+        asymmetric. Start the FastAPI backend locally, then explore the live
+        dashboard below.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <div
+          class="rounded-md border border-border/50 bg-muted/30 px-4 py-2 transition-colors hover:border-accent/50"
+        >
+          <span class="font-sans text-sm font-bold">Fraud Detection Modeling</span>
+        </div>
+        <div
+          class="rounded-md border border-border/50 bg-muted/30 px-4 py-2 transition-colors hover:border-accent/50"
+        >
+          <span class="font-sans text-sm font-bold">Statistical learning</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="pt-8" aria-labelledby="sentinel-dashboard">
+      <h2 id="sentinel-dashboard" class="text-2xl font-semibold tracking-wide">
+        Live dashboard
+      </h2>
+      <p class="mt-2 mb-4 text-sm text-foreground/60">
+        Source: <code class="rounded bg-muted/50 px-1.5 py-0.5 font-mono text-xs">{embedEndpoint}</code>
+      </p>
+
+      <div
+        id="sentinel-embed"
+        class="overflow-hidden rounded-md border border-border/50 bg-muted/20"
+        data-backurl={backUrl}
+      >
+        <div id="sentinel-root" set:html={embedHtml} />
+      </div>
+    </section>
+  </Main>
+  <Footer />
+</Layout>
+
+<script src="https://unpkg.com/htmx.org@2.0.4" is:inline></script>
+<script is:inline>
+  function setupSentinelDashboard() {
+    const root = document.getElementById("sentinel-root");
+    if (root && window.htmx) {
+      const backendBase = "http://127.0.0.1:8000";
+
+      root.querySelectorAll("[hx-post]").forEach(el => {
+        let currentPath = el.getAttribute("hx-post");
+        if (currentPath && !currentPath.startsWith("http")) {
+          currentPath = currentPath.replace(/^[:/]+/, "");
+          el.setAttribute("hx-post", backendBase + "/" + currentPath);
+        }
+      });
+
+      root.querySelectorAll("[hx-get]").forEach(el => {
+        let currentPath = el.getAttribute("hx-get");
+        if (currentPath && !currentPath.startsWith("http")) {
+          currentPath = currentPath.replace(/^[:/]+/, "");
+          el.setAttribute("hx-get", backendBase + "/" + currentPath);
+        }
+      });
+
+      window.htmx.process(root);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", setupSentinelDashboard);
+  document.addEventListener("astro:page-load", setupSentinelDashboard);
+</script>
