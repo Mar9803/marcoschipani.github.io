@@ -3,7 +3,7 @@
   "include": [".astro/types.d.ts", "**/*"],
   "exclude": ["dist", "public/pagefind"],
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": ".", // TODO: this is deprecated, CHECK IT 
     "paths": {
       "@/*": ["./src/*"]
     },
