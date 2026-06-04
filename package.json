@@ -4,7 +4,7 @@
   "version": "5.5.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build && pagefind --site dist && cp -r dist/pagefind public/",
+    "build": "astro check && astro build && pagefind --site dist && shx cp -r dist/pagefind public/",
     "preview": "astro preview",
     "sync": "astro sync",
     "astro": "astro",
@@ -39,6 +39,7 @@
     "eslint-plugin-astro": "^1.5.0",
     "globals": "^16.5.0",
     "pagefind": "^1.4.0",
+    "shx": "^0.3.4",
     "prettier": "^3.7.4",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
