@@ -33,6 +33,8 @@ jobs:
 
       - name: Build project
         run: pnpm run build
+        env:
+          PUBLIC_SENTINEL_EMBED_URL: ${{ vars.PUBLIC_SENTINEL_EMBED_URL }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
