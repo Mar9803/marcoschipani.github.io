@@ -29,37 +29,51 @@ try {
 
 <Layout
   title={`SentinelGraph | ${SITE.title}`}
-  description="Antifraud Live Simulator — model battle, risk metrics, and SentinelGraph demo."
+  description="Live Anti-Fraud Lab — hybrid MLOps pipeline with heuristic rules, XGBoost, and Autoencoder layers."
 >
   <Header />
   <Main
-    pageTitle="SentinelGraph"
-    pageDesc="Antifraud lab: dynamic live simulator powered by the Sentinel FastAPI backend."
+    pageTitle="SentinelGraph: Real-Time Hybrid Fraud Detection"
+    pageDesc="Welcome to the Live Anti-Fraud Lab."
   >
     <section
-      class="space-y-6 border-b border-border/50 pb-8"
-      aria-labelledby="sentinel-overview"
+      id="sentinel-overview"
+      class="max-w-2xl space-y-6 border-b border-border/50 pb-8"
     >
-      <h2 id="sentinel-overview" class="text-2xl font-semibold tracking-wide">
-        Project overview
-      </h2>
-      <p class="max-w-2xl text-base leading-relaxed text-foreground/70 md:text-lg">
-        SentinelGraph compares fraud-detection models beyond raw accuracy — F1,
-        recall, and explainability matter when the cost of a missed fraud is
-        asymmetric. Avvia il backend locale per usare il simulatore sotto.
+      <p class="text-base leading-relaxed text-foreground/70 md:text-lg">
+        This interactive simulator stress-tests a
+        <strong class="font-semibold text-foreground">production-ready MLOps pipeline</strong>
+        designed to intercept fraudulent transactions at scale. Instead of relying on a single
+        algorithm, SentinelGraph implements a
+        <strong class="font-semibold text-foreground">multi-layered hybrid architecture</strong>
+        that evaluates and compares three distinct methodology paradigms in real time:
       </p>
-      <div class="flex flex-wrap gap-3">
-        <div
-          class="rounded-md border border-border/50 bg-muted/30 px-4 py-2 transition-colors hover:border-accent/50"
+      <ol class="list-decimal space-y-3 ps-5 text-base leading-relaxed text-foreground/70 md:text-lg">
+        <li>
+          <strong class="font-semibold text-foreground">Deterministic Layer:</strong>
+          Static heuristic rules for instant edge filtering.
+        </li>
+        <li>
+          <strong class="font-semibold text-foreground">Gradient Boosting Layer:</strong>
+          A <strong class="font-semibold text-foreground">XGBoost</strong> classifier
+          engineered for tabular feature patterns.
+        </li>
+        <li>
+          <strong class="font-semibold text-foreground">Deep Learning Layer:</strong>
+          An unsupervised <strong class="font-semibold text-foreground">Autoencoder</strong> neural
+          network dedicated to structural anomaly detection.
+        </li>
+      </ol>
+      <p class="text-base leading-relaxed text-foreground/70 md:text-lg">
+        Want to dive deep into the math, data engineering, and architectural decisions behind this
+        project? Read the full technical write-up here:
+        <a
+          href={`${import.meta.env.BASE_URL}/posts/`}
+          class="font-semibold text-accent underline decoration-dashed underline-offset-4 hover:opacity-80"
         >
-          <span class="font-sans text-sm font-bold">Fraud Detection Modeling</span>
-        </div>
-        <div
-          class="rounded-md border border-border/50 bg-muted/30 px-4 py-2 transition-colors hover:border-accent/50"
-        >
-          <span class="font-sans text-sm font-bold">Statistical learning</span>
-        </div>
-      </div>
+          Architecture &amp; Ideation Deep Dive (RFC)
+        </a>.
+      </p>
     </section>
 
     <section class="pt-8" aria-labelledby="sentinel-simulator">
