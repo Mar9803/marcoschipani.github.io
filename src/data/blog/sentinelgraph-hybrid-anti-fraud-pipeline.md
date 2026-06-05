@@ -11,6 +11,15 @@ tags:
 description: "Architecture notes for a production-oriented hybrid pipeline — heuristic rules, XGBoost, and Autoencoder layers evaluated in real time."
 ---
 
+<div style="text-align: center;">
+  <img 
+    src="/marcoschipani.github.io/flowDarkscena.png"
+    alt="Paesaggio" 
+    style="width: 100%; max-width: 1000px; height: auto; border-radius: 8px; border: 2px solid #555;"
+  />
+</div>
+
+
 
 **Welcome to the SentinelGraph Live Anti-Fraud Lab!** This project is engineered as an open, evolving **Live Build**. To capture the real engineering process, I am keeping this **"flight log"** to document and monitor every development phase as it happens—from the initial notebook sketches and infrastructure blueprints to, hopefully: real-time feature serving, versioned model deployment, and production drift detection.
 
