@@ -12,7 +12,11 @@ description: "Architecture notes for a production-oriented hybrid pipeline — h
 ---
 
 <div style="text-align: center;">
-  <a href="/marcoschipani.github.io/projects/sentinel/">
+  <a
+    href="/marcoschipani.github.io/slowLight.png"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
     <img
       src="/marcoschipani.github.io/slowLight.png"
       alt="SentinelGraph live anti-fraud lab dashboard"
