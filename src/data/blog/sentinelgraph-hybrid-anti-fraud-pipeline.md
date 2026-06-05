@@ -12,11 +12,13 @@ description: "Architecture notes for a production-oriented hybrid pipeline — h
 ---
 
 <div style="text-align: center;">
-  <img 
-    src="/marcoschipani.github.io/flowDarkscena.png"
-    alt="Paesaggio" 
-    style="width: 100%; max-width: 1000px; height: auto; border-radius: 8px; border: 2px solid #555;"
-  />
+  <a href="/marcoschipani.github.io/projects/sentinel/">
+    <img
+      src="/marcoschipani.github.io/slowLight.png"
+      alt="SentinelGraph live anti-fraud lab dashboard"
+      style="width: 100%; max-width: 1000px; height: auto; border-radius: 8px; border: 2px solid #555;"
+    />
+  </a>
 </div>
 
 
