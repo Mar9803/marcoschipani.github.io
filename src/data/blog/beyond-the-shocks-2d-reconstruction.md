@@ -1,6 +1,6 @@
 ---
 author: Marco Schipani
-pubDatetime: 2024-05-20T12:00:00Z
+pubDatetime: 2026-05-20T12:00:00Z
 title: "Beyond the Shocks: Shape-Preserving Reconstruction in 2D Data Flows"
 postSlug: beyond-the-shocks-2d-reconstruction
 featured: true
