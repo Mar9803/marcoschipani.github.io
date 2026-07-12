@@ -237,7 +237,13 @@ Sia la L1 che la L2 contrastano la *Curse of Dimensionality*, ma lo fanno con un
 Per capire perché questi due approcci producano risultati così diversi, dobbiamo visualizzare la geometria dei loro vincoli nello spazio bidimensionale dei pesi ($w_1, w_2$).
 
 <figure style="margin: 2rem auto; text-align: center;">
-  <img src="/marcoschipani.github.io/geometria_vincoli_l1_l2.png" alt="Geometria dei vincoli di regolarizzazione L1 e L2" style="max-width: 100%; height: auto; border-radius: 6px; display: block; margin: 0 auto 0.75rem auto;" />
+  <a
+    href="/marcoschipani.github.io/geometria_vincoli_l1_l2.png"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <img src="/marcoschipani.github.io/geometria_vincoli_l1_l2.png" alt="Geometria dei vincoli di regolarizzazione L1 e L2" style="max-width: 100%; height: auto; border-radius: 6px; display: block; margin: 0 auto 0.75rem auto;" />
+  </a>
   <figcaption style="font-style: italic; font-size: 0.9rem; opacity: 0.7;"> Figure 1: Sulla sinistra, il vincolo sferico della Norma $L_2$ (Ridge) che interseca le ellissi della Loss in un punto generico. Sulla destra, il vincolo a diamante della Norma $L_1$ (Lasso) che forza l'intersezione su uno spigolo (asse $w_2$), azzerando il peso $w_1$.</figcaption>
 </figure>
 
@@ -248,7 +254,13 @@ Come mostrato nel grafico, la L2 impone un vincolo circolare levigato, rendendo 
 L'aggressività della L1 risiede interamente nella natura della sua derivata. Possiamo visualizzare questa forza come una vera e propria "pressione verso lo zero" esercitata sui pesi del modello ad ogni singolo passo di ottimizzazione.
 
 <figure style="margin: 2rem auto; text-align: center;">
-  <img src="/marcoschipani.github.io/forza_gradiente_l1_l2.png" alt="Forza del gradiente e dinamica dei pesi" style="max-width: 100%; height: auto; border-radius: 6px; display: block; margin: 0 auto 0.75rem auto;" />
+  <a
+    href="/marcoschipani.github.io/forza_gradiente_l1_l2.png"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <img src="/marcoschipani.github.io/forza_gradiente_l1_l2.png" alt="Forza del gradiente e dinamica dei pesi" style="max-width: 100%; height: auto; border-radius: 6px; display: block; margin: 0 auto 0.75rem auto;" />
+  </a>
   <figcaption style="font-style: italic; font-size: 0.9rem; opacity: 0.7;"> Figure 2: Andamento della penalità applicata al gradiente in funzione della grandezza del peso. La forza di L2 diminuisce linearmente man mano che il peso si avvicina a zero, mentre la forza di L1 rimane costante fino all'azzeramento.</figcaption>
 </figure>
 
