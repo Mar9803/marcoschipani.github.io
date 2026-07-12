@@ -13,7 +13,9 @@ import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
 import IconChevronRight from "@/assets/icons/IconChevronRight.svg";
+import SeriesNav from "@/components/SeriesNav.astro";
 import { SITE } from "@/config";
+import type { SeriesId } from "@/constants/series";
 
 type Props = {
   post: CollectionEntry<"blog">;
@@ -32,6 +34,8 @@ const {
   modDatetime,
   timezone,
   tags,
+  series,
+  seriesPart,
 } = post.data;
 
 const hideEditPost = true;
@@ -110,7 +114,13 @@ const nextPost =
       >
       <EditPost {hideEditPost} {post} class="max-sm:hidden" />
     </div>
-    
+
+    {
+      series && seriesPart && (
+        <SeriesNav seriesId={series as SeriesId} currentPart={seriesPart} />
+      )
+    }
+
     <article
       id="article"
       class="app-prose mt-8 w-full max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"

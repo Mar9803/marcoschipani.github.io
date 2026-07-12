@@ -1,0 +1,92 @@
+---
+import { getCollection } from "astro:content";
+import { getSeriesRegistry, type SeriesId } from "@/constants/series";
+import postFilter from "@/utils/postFilter";
+import { getPath } from "@/utils/getPath";
+
+type Props = {
+  seriesId: SeriesId;
+  currentPart: number;
+};
+
+const { seriesId, currentPart } = Astro.props;
+
+const registry = getSeriesRegistry(seriesId);
+const posts = registry
+  ? await getCollection("blog", postFilter)
+  : [];
+const publishedByPart = new Map(
+  posts
+    .filter(
+      ({ data }) => data.series === seriesId && data.seriesPart != null,
+    )
+    .map(post => [post.data.seriesPart!, post]),
+);
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+
+{
+  registry && (
+    <nav
+      aria-label={`${registry.displayName} series`}
+      class="my-5 rounded-md border border-border/50 bg-muted/20 px-3 py-3 sm:px-4"
+    >
+  <p
+    class="mb-2 text-xs font-semibold tracking-wide text-foreground/60 uppercase"
+  >
+    {registry.displayName}
+  </p>
+  <ol class="space-y-1 text-sm leading-snug">
+    {
+      registry.parts.map(({ part, title }) => {
+        const published = publishedByPart.get(part);
+        const isActive = part === currentPart;
+        const label = `Part ${part}: ${title}`;
+
+        if (isActive) {
+          return (
+            <li
+              class="rounded px-2 py-1 font-medium text-accent bg-accent/5 border border-accent/30"
+              aria-current="page"
+            >
+              {label}
+              <span class="ms-1 text-xs font-normal text-foreground/70">
+                (You are here)
+              </span>
+            </li>
+          );
+        }
+
+        if (published) {
+          const href = `${base}${getPath(published.id, published.filePath)}`.replace(
+            /\/+/g,
+            "/",
+          );
+          return (
+            <li>
+              <a
+                href={href}
+                class="block rounded px-2 py-1 text-foreground/80 transition-colors hover:bg-muted/40 hover:text-accent"
+              >
+                {label}
+              </a>
+            </li>
+          );
+        }
+
+        return (
+          <li
+            class="rounded px-2 py-1 text-foreground/40 italic"
+            aria-disabled="true"
+          >
+            {label}
+            <span class="ms-1 text-xs not-italic">(Coming Soon)</span>
+          </li>
+        );
+      })
+    }
+    </ol>
+    </nav>
+  )
+}

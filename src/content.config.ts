@@ -23,7 +23,17 @@ const blog = defineCollection({
       // AGGIUNGI QUESTE DUE RIGHE QUI SOTTO:
       link_url: z.string().optional(),
       link_name: z.string().optional(),
-    }),
+      series: z.string().optional(),
+      seriesPart: z.number().int().positive().optional(),
+    })
+    .refine(
+      data =>
+        (data.series == null && data.seriesPart == null) ||
+        (data.series != null && data.seriesPart != null),
+      {
+        message: "series and seriesPart must both be set or both omitted",
+      },
+    ),
 });
 
 export const collections = { blog };
