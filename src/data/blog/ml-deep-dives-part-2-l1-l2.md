@@ -1,6 +1,6 @@
 ---
 author: Marco Schipani
-pubDatetime: 2026-07-13T10:00:00Z
+pubDatetime: 2026-07-11T10:00:00Z
 title: "[ML Deep Dives] Part 2: Logistic Regression & The Geometry of L1/L2"
 description: "An in-depth analysis of L1 and L2 regularization, comparing their geometric constraints and impact on high-dimensional feature spaces."
 featured: false
