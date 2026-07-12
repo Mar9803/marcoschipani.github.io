@@ -4,7 +4,7 @@ pubDatetime: 2026-07-12T10:00:00Z
 title: "[ML Deep Dives] Part 1: The Linear Algebra of PCA"
 description: "A mathematical deep dive into Principal Component Analysis, exploring eigenvectors, eigenvalues, and variance maximization."
 featured: false
-draft: false
+draft: true
 series: ml-deep-dives
 seriesPart: 1
 tags:
