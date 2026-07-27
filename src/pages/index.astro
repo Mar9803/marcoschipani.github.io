@@ -242,10 +242,9 @@ const dijonUrl = `${base}/Dijon.svg`;
   <Footer />
 </Layout>
 
-<script define:vars={{ homeUrl }}>
+<script is:inline define:vars={{ homeUrl }}>
   document.addEventListener("astro:page-load", () => {
-    const indexLayout = (document.querySelector("#main-content") as HTMLElement)
-      ?.dataset?.layout;
+    const indexLayout = document.querySelector("#main-content")?.dataset?.layout;
     if (indexLayout) {
       sessionStorage.setItem("backUrl", homeUrl);
     }
