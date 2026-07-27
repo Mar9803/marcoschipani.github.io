@@ -7,16 +7,23 @@ import Socials from "@/components/Socials.astro";
 import LinkButton from "@/components/LinkButton.astro";
 import Card from "@/components/Card.astro";
 import getSortedPosts from "@/utils/getSortedPosts";
-import IconRss from "@/assets/icons/IconRss.svg";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import { SITE } from "@/config";
 import { SOCIALS } from "@/constants";
 
 const posts = await getCollection("blog");
-
 const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const homeUrl = base ? `${base}/` : "/";
+const postsUrl = `${base}/posts/`;
+const beyondShocksUrl = `${base}/posts/beyond-the-shocks-2d-reconstruction/`;
+const sentinelUrl = `${base}/projects/sentinel/`;
+const eyLogoUrl = `${base}/EYlogo.svg`;
+const galloUrl = `${base}/gallo.png`;
+const dijonUrl = `${base}/Dijon.svg`;
 ---
 
 <Layout>
@@ -24,38 +31,23 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
   <main id="main-content" data-layout="index" class="app-layout">
     <section id="hero" class:list={["pt-8 pb-6"]}>
       <h1 class="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
-        Hi there 👋, I am Marco 
+        Hi, I'm Marco
       </h1>
-      {/*---------------------- 
-        SE VUOI METTERE L'ICONA DEL WIFI CHE INVIA AGLI UTLIIMI POST 
-      <a
-        target="_blank"
-        href="/rss.xml"
-        class="inline-block"
-        aria-label="rss feed"
-        title="RSS Feed"
-      >
-        <IconRss
-          width={20}
-          height={20}
-          class="scale-125 stroke-accent stroke-3 rtl:-rotate-90"
-        />
-        <span class="sr-only">RSS Feed</span>
-      </a>
-      ---------------------
-      */}
 
-      {/*
-      Frase ceh si sscrive dinamicamente in prima pagina
-      */}
+      <p class="max-w-2xl text-base md:text-lg leading-relaxed text-foreground/70">
+        MSc Mathematics · SOC Analyst @ EY Málaga · building
+        <strong class="text-foreground">Fraud &amp; Anomaly Detection</strong> ML
+      </p>
+
       <div class="mt-4 min-h-[1.5em] text-xl md:text-2xl font-bold tracking-tight text-accent">
-      <span id="typewriter"></span>
-      <span id="cursor" class="ml-1 border-l-2 border-accent animate-pulse"></span>
-    </div>
-
+        <span id="typewriter"></span>
+        <span
+          id="cursor"
+          class="ml-1 border-l-2 border-accent animate-pulse"
+        ></span>
+      </div>
 
       {
-        // only display if at least one social link is enabled
         SOCIALS.length > 0 && (
           <div class="mt-4 flex max-sm:flex-col sm:items-center">
             <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">Social Links:</div>
@@ -63,130 +55,145 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
           </div>
         )
       }
+
+      <p class="mt-4 text-sm md:text-base text-foreground/60">
+        Featured project:{" "}
+        <a
+          href={sentinelUrl}
+          class="text-accent underline-offset-4 hover:underline"
+        >
+          Sentinel — fraud risk-scoring platform
+        </a>
+      </p>
     </section>
-{/*
-------------------------------SEZIONE AGGIUNTA DA ME
-*/}
 
-<section id="experience" class="pt-10 pb-6 border-b border-border/50">
-  <h2 class="text-2xl font-semibold tracking-wide">Experience</h2>
-  
-  <div class="mt-8 space-y-10">
-    <div class="flex flex-col gap-1">
-      <div class="flex items-center justify-between">
-        <div class="flex h-8 w-8 items-center justify-center rounded bg-white p-1">
-          <img 
-              src={`${import.meta.env.BASE_URL}/EYlogo.svg`} 
-              alt="EY Logo" 
-              class="h-full w-full object-contain" />
+    <section id="experience" class="pt-10 pb-6 border-b border-border/50">
+      <h2 class="text-2xl font-semibold tracking-wide">Experience</h2>
+
+      <div class="mt-8 space-y-10">
+        {/* EY */}
+        <div class="flex flex-col gap-1">
+          <div class="flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <div
+                class="flex h-8 w-8 items-center justify-center rounded bg-white p-1"
+              >
+                <img
+                  src={eyLogoUrl}
+                  alt="EY"
+                  class="h-full w-full object-contain"
+                />
+              </div>
+              <span class="text-xl font-bold">EY</span>
+            </div>
+            <span class="text-sm font-mono opacity-50 shrink-0"
+              >Sep 2025 — Present</span
+            >
+          </div>
+          <p class="text-lg italic tracking-tight">
+            SOC Analyst — Detection Engineering &amp; Security Analytics
+          </p>
+          <p
+            class="text-base md:text-lg leading-relaxed text-foreground/70 max-w-2xl"
+          >
+            Detection engineering in the SOC: Azure Sentinel Workbooks and KQL
+            on high-volume security telemetry, Logic Apps playbooks for
+            enrichment and risk-based escalation, and Python/Bash pipelines to
+            normalize multi-source logs. Focus on cutting triage time and
+            false-positive noise with statistical anomaly workflows — bridging
+            security operations toward applied ML for fraud and anomaly
+            detection.
+          </p>
         </div>
-        <span class="text-sm font-mono opacity-50">Sep 2025 — Present</span>
+
+        {/* Valencia */}
+        <div class="flex flex-col gap-1 border-t border-border/50 pt-8">
+          <div class="flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <div
+                class="flex h-8 w-8 items-center justify-center rounded bg-white p-1"
+              >
+                <img
+                  src={galloUrl}
+                  alt="Universitat de València"
+                  class="h-full w-full object-contain"
+                />
+              </div>
+              <span class="text-xl font-bold">Universitat de València</span>
+            </div>
+            <span class="text-sm font-mono opacity-50 shrink-0"
+              >2023 — 2024</span
+            >
+          </div>
+          <p class="text-lg italic tracking-tight">Research Student</p>
+          <p
+            class="text-base md:text-lg leading-relaxed text-foreground/70 max-w-2xl"
+          >
+            Research on monotone-preserving cubic/bicubic Hermite interpolants
+            for geometric constraint preservation, with new numerical methods
+            for the bidimensional case (
+            <a
+              href={beyondShocksUrl}
+              class="!text-accent underline decoration-dashed underline-offset-4 hover:!text-accent/80"
+            >
+              forthcoming publication track
+            </a>).
+          </p>
+        </div>
+
+        {/* Dijon */}
+        <div class="flex flex-col gap-1 border-t border-border/50 pt-8">
+          <div class="flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <div
+                class="flex h-8 w-8 shrink-0 items-center justify-center rounded bg-white p-1 overflow-hidden"
+              >
+                <img
+                  src={dijonUrl}
+                  alt="Université de Bourgogne"
+                  class="max-h-full w-auto object-contain"
+                />
+              </div>
+              <span class="text-xl font-bold">Université de Bourgogne</span>
+            </div>
+            <span class="text-sm font-mono opacity-50 shrink-0"
+              >May 2021 — Aug 2021</span
+            >
+          </div>
+          <p class="text-lg italic tracking-tight">Research Student</p>
+          <p
+            class="text-base md:text-lg leading-relaxed text-foreground/70 max-w-2xl"
+          >
+            Quantitative graph theory: free-group structure via Cayley graphs,
+            combinatorial pattern recognition, and analysis of invariant /
+            symmetry structures.
+          </p>
+        </div>
       </div>
-      <p class="text-lg italic tracking-tight">SOC Analyst (L1)</p>
-      <p class="text-base md:text-lg leading-relaxed text-foreground/70 max-w-2xl">
-        Monitoring security events, performing log analysis, and
-        supporting incident response activities within the SOC
-        environment. Gaining hands-on experience with SIEM tools,
-        workbook and playbook implementation for automation.
-        Exploring Python and Bash scripting.
-      </p>
-    </div>
+    </section>
 
-    <div class="flex flex-col gap-1 border-t border-border/50 pt-8">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-3">
-        <div class="flex h-8 w-8 items-center justify-center rounded bg-white p-1">
-          <img 
-            src={`${import.meta.env.BASE_URL}/gallo.png`} 
-            alt="gallo" 
-            style="width:30px; height:auto;"
-          />
-        </div>
-          <span class="text-xl font-bold">Universitat de València</span>
-        </div>
-        <span class="text-sm font-mono opacity-50">2023 — 2024</span>
+    <section id="skills" class="pt-10 pb-6 border-b border-border/50">
+      <h2 class="text-2xl font-semibold tracking-wide">Skills</h2>
+
+      <div class="mt-6 flex flex-wrap gap-3">
+        {
+          [
+            "Fraud & Anomaly Detection",
+            "Imbalanced Learning",
+            "Statistical Learning",
+            "Detection Engineering",
+            "KQL / Azure Sentinel",
+            "Python",
+            "FastAPI · Docker · MLflow",
+            "SQL / PostgreSQL",
+          ].map((label) => (
+            <div class="px-4 py-2 border border-border/50 bg-muted/30 rounded-md hover:border-accent/50 transition-colors">
+              <span class="font-sans text-sm font-bold">{label}</span>
+            </div>
+          ))
+        }
       </div>
-      <p class="text-lg italic tracking-tight">Research Student</p>
-      <p class="text-base md:text-lg leading-relaxed text-foreground/70 max-w-2xl">
-        Conducted research on image‐processing techniques focused
-        on the development of algorithms for constructing cubic
-        Hermite interpolants for monotone‐preserving interpolation.
-        Designed and implemented new numerical methods for the
-        bidimensional case.
-      </p>
-    </div>
-
-    <div class="flex flex-col gap-1 border-t border-border/50 pt-8">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <div class="flex h-8 w-8 items-center justify-center rounded bg-white p-1">
-          <img 
-            src={`${import.meta.env.BASE_URL}/Dijon.svg`} 
-            alt="dijon" 
-            style="width:150px; height:auto;"
-           />
-        </div>
-          <span class="text-xl font-bold">Université de Bourgogne</span>
-        </div>
-        <span class="text-sm font-mono opacity-50">May 2021 — Aug 2021</span>
-      </div>
-      <p class="text-lg italic tracking-tight">Research Student</p>
-      <p class="text-base md:text-lg leading-relaxed text-foreground/70 max-w-2xl">
-        Conducted a quantitative analysis of graph planarity and the
-        structural properties of free groups through Cayley graph
-        representations.Applied combinatorial methods and
-        algorithmic approaches to identify invariant patterns and
-s       ymmetry structures.
-      </p>
-    </div>
-    
-  </div>
-
-{/*
-FINE EXPERIENCE
-*/}
-
-
-{/*
-SEZIONE SKILLS
-*/}
-<section id="skills" class="pt-10 pb-6">
-  <h2 class="text-2xl font-semibold tracking-wide">Skills</h2>
-  
-  <div class="flex flex-wrap gap-3">
-    <div class="px-4 py-2 border border-border/50 bg-muted/30 rounded-md hover:border-accent/50 transition-colors">
-      <span class="font-sans text-sm font-bold">Statistical learning</span>
-    </div>
-
-    <div class="px-4 py-2 border border-border/50 bg-muted/30 rounded-md hover:border-accent/50 transition-colors">
-      <span class="font-sans text-sm font-bold">Fraud Detection Modeling</span>
-    </div>
-
-    <div class="px-4 py-2 border border-border/50 bg-muted/30 rounded-md hover:border-accent/50 transition-colors">
-      <span class="font-sans text-sm font-bold">Log Analysis & Threat Detection</span>
-    </div>
-
-    <div class="px-4 py-2 border border-border/50 bg-muted/30 rounded-md hover:border-accent/50 transition-colors">
-      <span class="font-sans text-sm font-bold">Python</span>
-    </div>
-
-    <div class="px-4 py-2 border border-border/50 bg-muted/30 rounded-md hover:border-accent/50 transition-colors">
-      <span class="font-sans text-sm font-bold">Incident Response</span>
-    </div>
-    
-    <div class="px-4 py-2 border border-border/50 bg-muted/30 rounded-md hover:border-accent/50 transition-colors">
-      <span class="font-sans text-sm font-bold">Threat Hunting</span>
-    </div>
-  </div>
-</section>
-
-
-{/*
-SEZIONI FEATURED E RECENT POSTS: MOSTRALE APPENA HAI UN POST
-*/}
-
-{/*
-</section>
+    </section>
 
     {
       featuredPosts.length > 0 && (
@@ -199,7 +206,7 @@ SEZIONI FEATURED E RECENT POSTS: MOSTRALE APPENA HAI UN POST
         >
           <h2 class="text-2xl font-semibold tracking-wide">Featured</h2>
           <ul>
-            {featuredPosts.map(data => (
+            {featuredPosts.map((data) => (
               <Card variant="h3" {...data} />
             ))}
           </ul>
@@ -221,56 +228,57 @@ SEZIONI FEATURED E RECENT POSTS: MOSTRALE APPENA HAI UN POST
       )
     }
 
-    <div class="my-8 text-center">
-      <LinkButton href="/posts/">
-        All Posts
-        <IconArrowRight class="inline-block rtl:-rotate-180" />
-      </LinkButton>
-    </div>
+    {
+      sortedPosts.length > 0 && (
+        <div class="my-8 text-center">
+          <LinkButton href={postsUrl}>
+            All Posts
+            <IconArrowRight class="inline-block rtl:-rotate-180" />
+          </LinkButton>
+        </div>
+      )
+    }
   </main>
   <Footer />
 </Layout>
 
-<script>
+<script define:vars={{ homeUrl }}>
   document.addEventListener("astro:page-load", () => {
     const indexLayout = (document.querySelector("#main-content") as HTMLElement)
       ?.dataset?.layout;
     if (indexLayout) {
-      sessionStorage.setItem("backUrl", "/");
+      sessionStorage.setItem("backUrl", homeUrl);
     }
   });
 </script>
 
-*/}
-
-
-{/*
-Questo serve per scriverre la fras dimanica 
-*/}
 <script>
+  let typewriterTimer: ReturnType<typeof setTimeout> | undefined;
+
   function initTypewriter() {
+    if (typewriterTimer) clearTimeout(typewriterTimer);
+
     const textElement = document.getElementById("typewriter");
-    if (!textElement) return; // Se non trova l'id, si ferma senza rompere il sito
+    if (!textElement) return;
 
     const phrases = [
-      "I am a mathematician in cyber.",
-      "I am a curious mind.",
-      "I love learning and sharing ideas.",
-      "I solve problems through data."
+      "Fraud & anomaly detection, end to end.",
+      "Detection engineering meets applied ML.",
+      "Math foundations, production-minded systems.",
+      "I care about recall, not vanity accuracy.",
     ];
-    
+
     let phraseIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
     let typeSpeed = 100;
 
     function type() {
-      // Dobbiamo ricontrollare se l'elemento esiste ancora (per i cambi pagina rapidi)
       const currentElement = document.getElementById("typewriter");
       if (!currentElement) return;
 
       const currentPhrase = phrases[phraseIndex];
-      
+
       if (isDeleting) {
         currentElement.textContent = currentPhrase.substring(0, charIndex - 1);
         charIndex--;
@@ -290,12 +298,11 @@ Questo serve per scriverre la fras dimanica
         typeSpeed = 500;
       }
 
-      setTimeout(type, typeSpeed);
+      typewriterTimer = setTimeout(type, typeSpeed);
     }
 
     type();
   }
 
-  // Questo garantisce che funzioni sia al primo avvio che al cambio pagina
   document.addEventListener("astro:page-load", initTypewriter);
 </script>
