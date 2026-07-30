@@ -5,13 +5,15 @@ import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import { SITE } from "@/config";
 
-const API_URL =
-  import.meta.env.PUBLIC_SENTINEL_EMBED_URL || "http://127.0.0.1:8000";
+const API_URL = import.meta.env.DEV
+  ? "http://127.0.0.1:8000"
+  : import.meta.env.PUBLIC_SENTINEL_EMBED_URL || "http://127.0.0.1:8000";
 const embedUrl = `${API_URL.replace(/\/$/, "")}/dashboard/embed`;
 
 let dashboardHtml = "Errore caricamento simulatore";
 try {
-  const res = await fetch(embedUrl);
+  // no-store: evita HTML embed stale in dev (SSR potrebbe riusare una risposta vecchia)
+  const res = await fetch(embedUrl, { cache: "no-store" });
   if (res.ok) {
     dashboardHtml = await res.text();
   } else {
@@ -89,15 +91,21 @@ try {
       </div>
     </section>
 
-    <section class="pt-8" aria-labelledby="sentinel-simulator">
-      <h2 id="sentinel-simulator" class="text-2xl font-semibold tracking-wide">
-        Live Simulator
-      </h2>
-      <div
-        id="sentinel-simulator-container"
-        class="mt-6 min-h-[24rem] overflow-hidden rounded-md border border-border/50 bg-muted/20"
-        set:html={dashboardHtml}
-      />
+    <!-- Break out of Main max-w-3xl so Enterprise / XGBoost panels are not clipped -->
+    <section
+      class="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 px-4 pt-8 sm:px-6"
+      aria-labelledby="sentinel-simulator"
+    >
+      <div class="mx-auto max-w-6xl">
+        <h2 id="sentinel-simulator" class="text-2xl font-semibold tracking-wide">
+          Live Simulator
+        </h2>
+        <div
+          id="sentinel-simulator-container"
+          class="mt-6 h-auto max-h-none min-h-[24rem] overflow-visible rounded-md border border-border/50 bg-muted/20 p-2 sm:p-4"
+          set:html={dashboardHtml}
+        />
+      </div>
     </section>
   </Main>
   <Footer />
