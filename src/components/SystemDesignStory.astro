@@ -1,0 +1,375 @@
+---
+import { SYSTEM_DESIGN_DATA } from "@/data/live-studying/system-design";
+---
+
+<div id="system-design-story" data-sds-root>
+  <div class="sds-tabs" role="tablist" aria-label="Dataset maps">
+    <button
+      type="button"
+      class="sds-tab is-active"
+      data-set="sys"
+      role="tab"
+      aria-selected="true"
+    >
+      System Design
+    </button>
+    <button
+      type="button"
+      class="sds-tab"
+      data-set="ml"
+      role="tab"
+      aria-selected="false"
+    >
+      ML System Design (Chip Huyen)
+    </button>
+  </div>
+  <div class="sds-toolbar">
+    <button type="button" class="sds-zbtn" data-zoom="out" aria-label="Zoom out"
+      >−</button
+    >
+    <button
+      type="button"
+      class="sds-zbtn"
+      data-zoom="reset"
+      aria-label="Reset zoom">＝</button
+    >
+    <button type="button" class="sds-zbtn" data-zoom="in" aria-label="Zoom in"
+      >+</button
+    >
+    <span class="sds-hint">zoom</span>
+  </div>
+  <div class="sds-stage">
+    <div class="sds-zoomwrap">
+      <ul class="sds-tree" data-tree-root></ul>
+    </div>
+  </div>
+  <div class="sds-story" data-story></div>
+  <div class="sds-tradeoffs" data-tradeoffs></div>
+</div>
+
+{/* :global — tree/cards are injected via innerHTML and cannot use Astro scoped hashes */}
+<style is:global>
+  #system-design-story {
+    --sds-muted-fg: color-mix(in srgb, var(--foreground) 58%, transparent);
+    --sds-panel2: var(--muted);
+    --sds-amber: #a15c00;
+    width: 100%;
+  }
+  html[data-theme="dark"] #system-design-story {
+    --sds-muted-fg: color-mix(in srgb, var(--foreground) 55%, transparent);
+    --sds-panel2: #222222;
+    --sds-amber: #c9a227;
+  }
+
+  #system-design-story .sds-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.65rem;
+  }
+  #system-design-story .sds-tab {
+    background: var(--muted);
+    border: 1px solid var(--border);
+    color: var(--sds-muted-fg);
+    padding: 0.45rem 0.9rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.85rem;
+  }
+  #system-design-story .sds-tab:hover {
+    color: var(--foreground);
+  }
+  #system-design-story .sds-tab.is-active {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, var(--background));
+  }
+  #system-design-story .sds-tab:focus-visible,
+  #system-design-story .sds-zbtn:focus-visible {
+    outline: 2px dashed var(--accent);
+    outline-offset: 2px;
+  }
+
+  #system-design-story .sds-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.5rem;
+  }
+  #system-design-story .sds-zbtn {
+    background: var(--background);
+    border: 1px solid var(--border);
+    color: var(--foreground);
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    font: inherit;
+    font-size: 1rem;
+    line-height: 1;
+  }
+  #system-design-story .sds-zbtn:hover {
+    border-color: var(--accent);
+  }
+  #system-design-story .sds-hint {
+    color: var(--sds-muted-fg);
+    font-size: 0.72rem;
+    margin-left: 0.35rem;
+  }
+
+  #system-design-story .sds-stage {
+    overflow: auto;
+    border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+    border-radius: 0.375rem;
+    background: color-mix(in srgb, var(--muted) 35%, transparent);
+    padding: 1.75rem 1.25rem;
+  }
+  #system-design-story .sds-zoomwrap {
+    transform-origin: top left;
+    transition: transform 0.15s ease;
+    width: max-content;
+  }
+
+  #system-design-story .sds-tree,
+  #system-design-story .sds-tree ul {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    position: relative;
+    display: table;
+  }
+  #system-design-story .sds-tree ul {
+    padding-top: 22px;
+  }
+  #system-design-story .sds-tree li {
+    display: table-cell;
+    text-align: center;
+    padding: 22px 10px 0;
+    vertical-align: top;
+    position: relative;
+  }
+  #system-design-story .sds-tree li::before,
+  #system-design-story .sds-tree li::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 50%;
+    border-top: 1px solid var(--border);
+    width: 50%;
+    height: 22px;
+  }
+  #system-design-story .sds-tree li::after {
+    right: auto;
+    left: 50%;
+    border-left: 1px solid var(--border);
+  }
+  #system-design-story .sds-tree li:only-child::after,
+  #system-design-story .sds-tree li:only-child::before {
+    display: none;
+  }
+  #system-design-story .sds-tree li:only-child {
+    padding-top: 0;
+  }
+  #system-design-story .sds-tree li:first-child::before,
+  #system-design-story .sds-tree li:last-child::after {
+    border: 0 none;
+  }
+  #system-design-story .sds-tree li:last-child::before {
+    border-right: 1px solid var(--border);
+    border-radius: 0 5px 0 0;
+  }
+  #system-design-story .sds-tree li:first-child::after {
+    border-radius: 5px 0 0 0;
+  }
+  #system-design-story .sds-tree ul ul::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    border-left: 1px solid var(--border);
+    width: 0;
+    height: 22px;
+  }
+  #system-design-story .sds-tree > li {
+    padding-top: 0;
+  }
+  #system-design-story .sds-tree > li::before,
+  #system-design-story .sds-tree > li::after {
+    display: none;
+  }
+
+  #system-design-story .sds-card {
+    display: inline-block;
+    background: var(--sds-panel2);
+    border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+    border-radius: 0.375rem;
+    padding: 0.55rem 0.75rem;
+    min-width: 104px;
+    cursor: pointer;
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+  #system-design-story .sds-card:hover {
+    border-color: var(--accent);
+  }
+  #system-design-story .sds-card.is-active {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 50%, transparent);
+  }
+  #system-design-story .sds-card .sds-icon {
+    font-size: 1.15rem;
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+  #system-design-story .sds-card .sds-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  #system-design-story .sds-card .sds-sublabel {
+    font-size: 0.65rem;
+    color: var(--sds-muted-fg);
+    margin-top: 1px;
+    white-space: nowrap;
+  }
+
+  #system-design-story .sds-story,
+  #system-design-story .sds-tradeoffs {
+    margin-top: 1rem;
+    border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+    border-radius: 0.375rem;
+    background: color-mix(in srgb, var(--muted) 35%, transparent);
+    padding: 1rem 1.125rem;
+  }
+  #system-design-story .sds-story h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  #system-design-story .sds-story .sds-row {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+  #system-design-story .sds-story .sds-k {
+    color: var(--sds-muted-fg);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    display: block;
+    margin-bottom: 2px;
+  }
+  #system-design-story .sds-tradeoffs h2 {
+    margin: 0 0 0.5rem;
+    font-size: 0.92rem;
+    color: var(--sds-amber);
+    font-weight: 600;
+  }
+  #system-design-story .sds-to-item {
+    font-size: 0.83rem;
+    margin-bottom: 0.3rem;
+    color: var(--sds-muted-fg);
+    line-height: 1.45;
+  }
+  #system-design-story .sds-to-item b {
+    color: var(--foreground);
+    font-weight: 600;
+  }
+</style>
+
+<script define:vars={{ DATA: SYSTEM_DESIGN_DATA }}>
+  function setupSystemDesignStory() {
+    const root = document.querySelector("[data-sds-root]");
+    if (!root || root.dataset.sdsReady === "1") return;
+
+    const treeRoot = root.querySelector("[data-tree-root]");
+    const storyEl = root.querySelector("[data-story]");
+    const toEl = root.querySelector("[data-tradeoffs]");
+    const zoomwrap = root.querySelector(".sds-zoomwrap");
+    if (!treeRoot || !storyEl || !toEl || !zoomwrap) return;
+
+    let zoom = 1;
+    let STORY = {};
+
+    function nodeLi(n) {
+      STORY[n.key] = {
+        title: n.title,
+        problema: n.problema,
+        soluzione: n.soluzione,
+      };
+      const kids =
+        n.children && n.children.length
+          ? `<ul>${n.children.map(nodeLi).join("")}</ul>`
+          : "";
+      return `<li><div class="sds-card" data-key="${n.key}"><div class="sds-icon">${n.icon}</div><div class="sds-title">${n.title}</div><div class="sds-sublabel">${n.sub || ""}</div></div>${kids}</li>`;
+    }
+
+    function applyZoom() {
+      zoomwrap.style.transform = `scale(${zoom})`;
+    }
+
+    function selectNode(key) {
+      root
+        .querySelectorAll(".sds-card")
+        .forEach(c => c.classList.remove("is-active"));
+      const el = root.querySelector(`.sds-card[data-key="${key}"]`);
+      if (el) el.classList.add("is-active");
+      const n = STORY[key];
+      if (!n) return;
+      storyEl.innerHTML = `<h2>${n.title}</h2>
+        <div class="sds-row"><span class="sds-k">Problema (trigger)</span>${n.problema}</div>
+        <div class="sds-row"><span class="sds-k">Soluzione (layer aggiunto)</span>${n.soluzione}</div>`;
+    }
+
+    function render(key) {
+      zoom = 1;
+      applyZoom();
+      STORY = {};
+      const d = DATA[key];
+      if (!d) return;
+      treeRoot.innerHTML = nodeLi(d.root);
+      toEl.innerHTML =
+        `<h2>${d.trade_title}</h2>` +
+        d.trade
+          .map(([a, b]) => `<div class="sds-to-item"><b>${a}</b> → ${b}</div>`)
+          .join("");
+      selectNode(d.root.key);
+    }
+
+    treeRoot.addEventListener("click", e => {
+      const c = e.target.closest(".sds-card");
+      if (!c) return;
+      selectNode(c.dataset.key);
+    });
+
+    root.querySelectorAll("[data-zoom]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const op = btn.dataset.zoom;
+        if (op === "in") zoom = Math.min(zoom + 0.15, 2);
+        if (op === "out") zoom = Math.max(zoom - 0.15, 0.4);
+        if (op === "reset") zoom = 1;
+        applyZoom();
+      });
+    });
+
+    root.querySelectorAll(".sds-tab").forEach(t => {
+      t.addEventListener("click", () => {
+        root.querySelectorAll(".sds-tab").forEach(x => {
+          x.classList.remove("is-active");
+          x.setAttribute("aria-selected", "false");
+        });
+        t.classList.add("is-active");
+        t.setAttribute("aria-selected", "true");
+        render(t.dataset.set || "sys");
+      });
+    });
+
+    render("sys");
+    root.dataset.sdsReady = "1";
+  }
+
+  document.addEventListener("DOMContentLoaded", setupSystemDesignStory);
+  document.addEventListener("astro:page-load", setupSystemDesignStory);
+</script>

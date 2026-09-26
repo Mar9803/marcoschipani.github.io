@@ -25,6 +25,8 @@ const blog = defineCollection({
       link_name: z.string().optional(),
       series: z.string().optional(),
       seriesPart: z.number().int().positive().optional(),
+      /** If set, the post body is replaced by an interactive map widget */
+      interactiveMap: z.enum(["system-design"]).optional(),
     })
     .refine(
       data =>

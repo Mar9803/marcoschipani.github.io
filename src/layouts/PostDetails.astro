@@ -14,6 +14,7 @@ import { slugifyStr } from "@/utils/slugify";
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
 import IconChevronRight from "@/assets/icons/IconChevronRight.svg";
 import SeriesNav from "@/components/SeriesNav.astro";
+import SystemDesignStory from "@/components/SystemDesignStory.astro";
 import { SITE } from "@/config";
 import type { SeriesId } from "@/constants/series";
 
@@ -36,9 +37,11 @@ const {
   tags,
   series,
   seriesPart,
+  interactiveMap,
 } = post.data;
 
 const hideEditPost = true;
+const isInteractiveMap = interactiveMap === "system-design";
 
 const { Content } = await render(post);
 
@@ -121,12 +124,27 @@ const nextPost =
       )
     }
 
-    <article
-      id="article"
-      class="app-prose mt-8 w-full max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"
-    >
-      <Content />
-    </article>
+    {
+      isInteractiveMap ? (
+        <>
+          <p class="mt-4 mb-2 max-w-2xl text-base italic text-foreground/70">
+            {description}
+          </p>
+          <div class="relative left-1/2 mt-6 w-screen max-w-[100vw] -translate-x-1/2 px-4 sm:px-6">
+            <div class="mx-auto max-w-6xl">
+              <SystemDesignStory />
+            </div>
+          </div>
+        </>
+      ) : (
+        <article
+          id="article"
+          class="app-prose mt-8 w-full max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"
+        >
+          <Content />
+        </article>
+      )
+    }
 
     { (post.data.link_url) && (
       <div class="mt-12 p-6 border border-accent/20 rounded-xl bg-accent/5">
