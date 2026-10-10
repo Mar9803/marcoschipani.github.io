@@ -1,7 +1,9 @@
+import { detectionAtScaleSeries } from "./detection-at-scale";
 import { mlDeepDivesSeries } from "./ml-deep-dives";
 import { voronoiDiagramsMlSeries } from "./voronoi-diagrams-ml";
 
 export const SERIES_REGISTRY = {
+  [detectionAtScaleSeries.id]: detectionAtScaleSeries,
   [mlDeepDivesSeries.id]: mlDeepDivesSeries,
   [voronoiDiagramsMlSeries.id]: voronoiDiagramsMlSeries,
 } as const;
