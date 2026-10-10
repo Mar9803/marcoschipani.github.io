@@ -1,17 +1,21 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { slugifyStr } from "@/utils/slugify";
+import { getSeriesRegistry } from "@/constants/series";
 import Datetime from "./Datetime.astro";
 
 interface Props {
   variant?: "h2" | "h3";
+  /** Smaller title/description for dense listings (e.g. Posts index) */
+  compact?: boolean;
   id: string;
   data: CollectionEntry<"blog">["data"];
   filePath?: string;
 }
 
-const { variant: Heading = "h2", id, data } = Astro.props;
-const { title, description, ...props } = data;
+const { variant: Heading = "h2", compact = false, id, data } = Astro.props;
+const { title, description, series, seriesPart, ...props } = data;
+const seriesLabel = series ? getSeriesRegistry(series)?.displayName : null;
 
 // 1. Puliamo la base assicurandoci che non finisca con /
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
@@ -24,13 +28,35 @@ const cleanId = id.replace(/\.[^/.]+$/, "");
 const postHref = `${base}/posts/${cleanId}/`.replace(/\/+/g, "/");
 ---
 
-<li class="my-12 border-b border-border/40 pb-10 last:border-none list-none">
+<li
+  class:list={[
+    "border-b border-border/40 last:border-none list-none",
+    compact ? "my-8 pb-8" : "my-12 pb-10",
+  ]}
+>
+  {
+    seriesLabel && (
+      <p class="mb-2 text-xs font-semibold tracking-wide text-foreground/50 uppercase">
+        {seriesLabel}
+        {seriesPart != null && (
+          <span class="ms-1 font-normal normal-case text-foreground/40">
+            · Part {seriesPart}
+          </span>
+        )}
+      </p>
+    )
+  }
   <a
     href={postHref}
     class="group inline-block focus-visible:no-underline focus-visible:underline-offset-0"
   >
     <Heading
-      class="text-2xl md:text-3xl font-bold tracking-tighter text-accent group-hover:opacity-80 transition-all"
+      class:list={[
+        "tracking-tighter text-accent transition-all group-hover:opacity-80",
+        compact
+          ? "text-xl font-semibold md:text-2xl"
+          : "text-2xl font-bold md:text-3xl",
+      ]}
       style={{ viewTransitionName: slugifyStr(title.replaceAll(".", "-")) }}
     >
       {title}
@@ -41,7 +67,12 @@ const postHref = `${base}/posts/${cleanId}/`.replace(/\/+/g, "/");
     <Datetime {...props} />
   </div>
 
-  <p class="text-base md:text-lg leading-relaxed text-accent/70 max-w-2xl mb-6">
+  <p
+    class:list={[
+      "mb-6 max-w-2xl leading-relaxed text-accent/70",
+      compact ? "text-base" : "text-base md:text-lg",
+    ]}
+  >
     {description}
   </p>
 

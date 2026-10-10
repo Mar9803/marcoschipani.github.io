@@ -1,12 +1,13 @@
 ---
 import type { GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
-import Main from "@/layouts/Main.astro";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
 import Card from "@/components/Card.astro";
 import Pagination from "@/components/Pagination.astro";
+import PostsIndex from "@/components/PostsIndex.astro";
 import getSortedPosts from "@/utils/getSortedPosts";
 import { SITE } from "@/config";
 
@@ -16,17 +17,76 @@ export const getStaticPaths = (async ({ paginate }) => {
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
+
+const allPosts = getSortedPosts(
+  await getCollection("blog", ({ data }) => !data.draft),
+);
+
+const backUrl = SITE.showBackButton ? Astro.url.pathname : "/";
 ---
 
 <Layout title={`Posts | ${SITE.title}`}>
   <Header />
-  <Main pageTitle="Posts" pageDesc="All the articles I've posted.">
-    <ul>
-      {page.data.map(data => <Card {...data} />)}
-    </ul>
-  </Main>
+  <Breadcrumb />
+  <main id="main-content" class="pb-4" data-backUrl={backUrl}>
+    <div
+      class="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 px-4 sm:px-6"
+    >
+      <div class="mx-auto max-w-6xl">
+        <h1 class="text-2xl font-semibold sm:text-3xl">Posts</h1>
+        <p class="mt-2 mb-8 italic text-foreground/80">
+          All the articles I've posted.
+        </p>
 
-  <Pagination {page} />
+        <details
+          class="mb-6 rounded-md border border-border/50 bg-muted/20 md:hidden"
+        >
+          <summary
+            class="cursor-pointer px-3 py-2.5 text-[0.9375rem] font-medium text-foreground/80"
+          >
+            Browse articles
+          </summary>
+          <div class="border-t border-border/40 px-3 py-3">
+            <PostsIndex posts={allPosts} />
+          </div>
+        </details>
+
+        <div
+          class="grid gap-8 md:grid-cols-[minmax(13rem,16rem)_minmax(0,1fr)] lg:grid-cols-[minmax(14rem,17rem)_minmax(0,1fr)]"
+        >
+          <aside class="hidden md:block">
+            <div
+              class="sticky top-20 max-h-[calc(100svh-6rem)] overflow-y-auto pe-1"
+            >
+              <PostsIndex posts={allPosts} />
+            </div>
+          </aside>
+
+          <div>
+            <ul>
+              {
+                page.data.map(data => (
+                  <Card {...data} compact />
+                ))
+              }
+            </ul>
+            <Pagination {page} />
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
 
   <Footer noMarginTop={page.lastPage > 1} />
 </Layout>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const mainContent: HTMLElement | null =
+      document.querySelector("#main-content");
+    const backUrl = mainContent?.dataset?.backurl;
+    if (backUrl) {
+      sessionStorage.setItem("backUrl", backUrl);
+    }
+  });
+</script>

@@ -1,0 +1,140 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { SERIES_REGISTRY, type SeriesId } from "@/constants/series";
+import { getPath } from "@/utils/getPath";
+
+type Props = {
+  posts: CollectionEntry<"blog">[];
+};
+
+const { posts } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+const hrefFor = (post: CollectionEntry<"blog">) =>
+  `${base}${getPath(post.id, post.filePath)}`.replace(/\/+/g, "/");
+
+const seriesIds = Object.keys(SERIES_REGISTRY) as SeriesId[];
+
+const seriesBlocks = seriesIds.map(seriesId => {
+  const registry = SERIES_REGISTRY[seriesId];
+  const publishedByPart = new Map(
+    posts
+      .filter(
+        ({ data }) => data.series === seriesId && data.seriesPart != null,
+      )
+      .map(post => [post.data.seriesPart!, post]),
+  );
+  const hasPublished = registry.parts.some(({ part }) =>
+    publishedByPart.has(part),
+  );
+  return { seriesId, registry, publishedByPart, hasPublished };
+}).filter(block => block.hasPublished);
+
+const seriesPostIds = new Set(
+  posts
+    .filter(({ data }) => data.series != null)
+    .map(({ id }) => id),
+);
+
+const standalone = posts.filter(({ id }) => !seriesPostIds.has(id));
+---
+
+<nav aria-label="Posts index" class="text-[0.9375rem] leading-snug">
+  <p
+    class="mb-3 text-xs font-semibold tracking-wide text-foreground/60 uppercase"
+  >
+    Index
+  </p>
+
+  {
+    seriesBlocks.length > 0 && (
+      <div class="mb-5 space-y-2">
+        <p class="mb-1 text-[0.7rem] font-semibold tracking-wide text-foreground/45 uppercase">
+          Series
+        </p>
+        {seriesBlocks.map(({ registry, publishedByPart }) => {
+          const firstPublished = registry.parts
+            .map(({ part }) => publishedByPart.get(part))
+            .find(Boolean);
+
+          return (
+            <details class="group rounded-md border border-border/50 bg-muted/20 open:bg-muted/30" open>
+              <summary class="cursor-pointer list-none px-2.5 py-2 font-medium text-foreground/90 marker:content-none [&::-webkit-details-marker]:hidden">
+                <span class="flex items-start justify-between gap-2">
+                  <span class="leading-snug">{registry.displayName}</span>
+                  <span
+                    aria-hidden="true"
+                    class="mt-0.5 shrink-0 text-foreground/40 transition-transform group-open:rotate-90"
+                  >
+                    ›
+                  </span>
+                </span>
+              </summary>
+              <ol class="space-y-0.5 border-t border-border/40 px-1.5 py-2">
+                {registry.parts.map(({ part, title }) => {
+                  const published = publishedByPart.get(part);
+                  const label = `Part ${part}: ${title}`;
+
+                  if (published) {
+                    return (
+                      <li>
+                        <a
+                          href={hrefFor(published)}
+                          class="block rounded px-2 py-1.5 leading-snug text-foreground/75 transition-colors hover:bg-muted/50 hover:text-accent"
+                        >
+                          {label}
+                        </a>
+                      </li>
+                    );
+                  }
+
+                  return (
+                    <li
+                      class="rounded px-2 py-1.5 leading-snug text-foreground/35 italic"
+                      aria-disabled="true"
+                    >
+                      {label}
+                      <span class="ms-1 text-[0.65rem] not-italic">(soon)</span>
+                    </li>
+                  );
+                })}
+              </ol>
+              {firstPublished && (
+                <p class="border-t border-border/40 px-2.5 py-1.5">
+                  <a
+                    href={hrefFor(firstPublished)}
+                    class="text-xs text-accent hover:underline underline-offset-2"
+                  >
+                    Start series →
+                  </a>
+                </p>
+              )}
+            </details>
+          );
+        })}
+      </div>
+    )
+  }
+
+  {
+    standalone.length > 0 && (
+      <div>
+        <p class="mb-1 text-[0.7rem] font-semibold tracking-wide text-foreground/45 uppercase">
+          Articles
+        </p>
+        <ul class="space-y-0.5">
+          {standalone.map(post => (
+            <li>
+              <a
+                href={hrefFor(post)}
+                class="block rounded px-2 py-1.5 leading-snug text-foreground/75 transition-colors hover:bg-muted/40 hover:text-accent"
+              >
+                {post.data.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+</nav>
