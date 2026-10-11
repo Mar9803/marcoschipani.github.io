@@ -1,6 +1,6 @@
 ---
 author: Marco Schipani
-pubDatetime: 2026-10-11T00:30:00Z
+pubDatetime: 2026-10-09T00:30:00Z
 title: "Il modello arriva dopo la regola"
 description: "Uber, nel 2017, ha messo i modelli dentro un motore di regole. In produzione l'unità è la cascata."
 featured: false
