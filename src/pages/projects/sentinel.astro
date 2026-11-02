@@ -3,7 +3,11 @@ import Main from "@/layouts/Main.astro";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
+import BackButton from "@/components/BackButton.astro";
 import { SITE } from "@/config";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const homeUrl = base ? `${base}/` : "/";
 
 const API_URL = import.meta.env.DEV
   ? "http://127.0.0.1:8000"
@@ -34,6 +38,7 @@ try {
   description="Live Anti-Fraud Lab — hybrid MLOps pipeline with heuristic rules, XGBoost, and Autoencoder layers."
 >
   <Header />
+  <BackButton href={homeUrl} />
   <Main
     pageTitle="SentinelGraph: Real-Time Hybrid Fraud Detection"
     pageDesc="Welcome to the Live Anti-Fraud Lab."
@@ -65,30 +70,16 @@ try {
           network dedicated to structural anomaly detection.
         </li>
       </ol>
-      <div style="margin-top: 25px; border-top: 1px solid #333; padding-top: 15px;">
-        <p style="font-size: 0.9rem; color: #888; margin-bottom: 5px; font-style: italic;">
-          This is an ongoing story, want to know more?
-        </p>
-        <a
-          href={`${import.meta.env.BASE_URL}/posts/sentinelgraph-hybrid-anti-fraud-pipeline/`}
-          style="
-            display: inline-flex;
-            align-items: center;
-            color: #1e9aa3;
-            text-decoration: none;
-            font-weight: 600;
-            font-family: monospace;
-            transition: all 0.3s ease;
-            letter-spacing: 0.5px;
-            cursor: pointer;
-          "
-          onmouseover="this.style.color='#4fc3f7'; this.style.transform='translateX(5px)';"
-          onmouseout="this.style.color='#1e9aa3'; this.style.transform='translateX(0)';"
-        >
-          READ THE FULL ARTICLE
-          <span style="margin-left: 8px; font-size: 1.2rem;">→</span>
-        </a>
-      </div>
+      <a
+        href={`${import.meta.env.BASE_URL}/posts/sentinelgraph-hybrid-anti-fraud-pipeline/`}
+        class="glass-card mt-6"
+      >
+        <span class="text-sm font-medium text-foreground/70">Diario</span>
+        <span class="text-lg font-medium leading-snug">SentinelGraph, la pipeline ibrida</span>
+        <span class="text-sm leading-relaxed text-foreground/70">
+          Il flight log del lab: regole, XGBoost e autoencoder.
+        </span>
+      </a>
     </section>
 
     <!-- Break out of Main max-w-3xl so Enterprise / XGBoost panels are not clipped -->

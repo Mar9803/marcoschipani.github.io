@@ -39,18 +39,19 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
   </p>
   <ol class="space-y-1 text-sm leading-snug">
     {
-      registry.parts.map(({ part, title }) => {
+      registry.parts
+        .filter(({ part }) => publishedByPart.has(part))
+        .map(({ part, title }) => {
         const published = publishedByPart.get(part);
         const isActive = part === currentPart;
-        const label = `Part ${part}: ${title}`;
 
-        if (isActive) {
+        if (isActive || !published) {
           return (
             <li
               class="rounded px-2 py-1 font-medium text-accent bg-accent/5 border border-accent/30"
               aria-current="page"
             >
-              {label}
+              {title}
               <span class="ms-1 text-xs font-normal text-foreground/70">
                 (You are here)
               </span>
@@ -58,30 +59,18 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
           );
         }
 
-        if (published) {
-          const href = `${base}${getPath(published.id, published.filePath)}`.replace(
-            /\/+/g,
-            "/",
-          );
-          return (
-            <li>
-              <a
-                href={href}
-                class="block rounded px-2 py-1 text-foreground/80 transition-colors hover:bg-muted/40 hover:text-accent"
-              >
-                {label}
-              </a>
-            </li>
-          );
-        }
-
+        const href = `${base}${getPath(published.id, published.filePath)}`.replace(
+          /\/+/g,
+          "/",
+        );
         return (
-          <li
-            class="rounded px-2 py-1 text-foreground/40 italic"
-            aria-disabled="true"
-          >
-            {label}
-            <span class="ms-1 text-xs not-italic">(Coming Soon)</span>
+          <li>
+            <a
+              href={href}
+              class="block rounded px-2 py-1 text-foreground/80 transition-colors hover:bg-muted/40 hover:text-accent"
+            >
+              {title}
+            </a>
           </li>
         );
       })

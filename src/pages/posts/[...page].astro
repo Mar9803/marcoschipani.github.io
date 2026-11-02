@@ -7,7 +7,6 @@ import Footer from "@/components/Footer.astro";
 import Breadcrumb from "@/components/Breadcrumb.astro";
 import Card from "@/components/Card.astro";
 import Pagination from "@/components/Pagination.astro";
-import PostsIndex from "@/components/PostsIndex.astro";
 import getSortedPosts from "@/utils/getSortedPosts";
 import { SITE } from "@/config";
 
@@ -17,10 +16,6 @@ export const getStaticPaths = (async ({ paginate }) => {
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
-
-const allPosts = getSortedPosts(
-  await getCollection("blog", ({ data }) => !data.draft),
-);
 
 const backUrl = SITE.showBackButton ? Astro.url.pathname : "/";
 ---
@@ -38,41 +33,14 @@ const backUrl = SITE.showBackButton ? Astro.url.pathname : "/";
           All the articles I've posted.
         </p>
 
-        <details
-          class="mb-6 rounded-md border border-border/50 bg-muted/20 md:hidden"
-        >
-          <summary
-            class="cursor-pointer px-3 py-2.5 text-[0.9375rem] font-medium text-foreground/80"
-          >
-            Browse articles
-          </summary>
-          <div class="border-t border-border/40 px-3 py-3">
-            <PostsIndex posts={allPosts} />
-          </div>
-        </details>
-
-        <div
-          class="grid gap-8 md:grid-cols-[minmax(13rem,16rem)_minmax(0,1fr)] lg:grid-cols-[minmax(14rem,17rem)_minmax(0,1fr)]"
-        >
-          <aside class="hidden md:block">
-            <div
-              class="sticky top-20 max-h-[calc(100svh-6rem)] overflow-y-auto pe-1"
-            >
-              <PostsIndex posts={allPosts} />
-            </div>
-          </aside>
-
-          <div>
-            <ul>
-              {
-                page.data.map(data => (
-                  <Card {...data} compact />
-                ))
-              }
-            </ul>
-            <Pagination {page} />
-          </div>
-        </div>
+        <ul>
+          {
+            page.data.map(data => (
+              <Card {...data} compact />
+            ))
+          }
+        </ul>
+        <Pagination {page} />
       </div>
     </div>
   </main>

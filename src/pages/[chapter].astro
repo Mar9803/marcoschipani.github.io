@@ -1,0 +1,82 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import BackButton from "@/components/BackButton.astro";
+import { CHAPTERS, postsInGroup } from "@/constants/chapters";
+import postFilter from "@/utils/postFilter";
+import { getPath } from "@/utils/getPath";
+
+export function getStaticPaths() {
+  return CHAPTERS.map(chapter => ({
+    params: { chapter: chapter.id },
+    props: { chapter },
+  }));
+}
+
+const { chapter } = Astro.props;
+const posts = await getCollection("blog", postFilter);
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+const groups = chapter.groups
+  .map(group => ({
+    title: group.title,
+    posts: postsInGroup(posts, group),
+  }))
+  .filter(group => group.posts.length > 0);
+
+const hrefFor = (id: string, filePath: string | undefined) =>
+  `${base}${getPath(id, filePath)}`.replace(/\/+/g, "/");
+const homeUrl = base ? `${base}/` : "/";
+---
+
+<Layout title={`${chapter.title} | Marco Schipani`} description={chapter.description}>
+  <Header wide />
+  <main
+    id="main-content"
+    class="chapter-page mx-auto w-full max-w-5xl px-4 pb-16"
+    data-backUrl={Astro.url.pathname}
+  >
+    <BackButton href={homeUrl} wrapperClass="flex items-center justify-start" />
+    <p class="text-sm font-medium text-foreground/70">{chapter.kicker}</p>
+    <h1 class="mt-1 text-4xl font-bold tracking-tight sm:text-5xl">
+      {chapter.title}
+    </h1>
+    <p class="mt-3 max-w-2xl text-base text-foreground/70 md:text-lg">
+      {chapter.description}
+    </p>
+
+    {
+      groups.map(group => (
+        <section class="mt-10">
+          {group.title && <h2 class="text-lg font-medium">{group.title}</h2>}
+          <ul class="mt-3 grid gap-4 sm:grid-cols-2">
+            {group.posts.map(post => (
+              <li>
+                <a href={hrefFor(post.id, post.filePath)} class="glass-card">
+                  <span class="text-base font-medium leading-snug">
+                    {post.data.title}
+                  </span>
+                  <span class="text-sm leading-relaxed text-foreground/70">
+                    {post.data.description}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const mainContent: HTMLElement | null =
+      document.querySelector("#main-content");
+    const backUrl = mainContent?.dataset?.backurl;
+    if (backUrl) sessionStorage.setItem("backUrl", backUrl);
+  });
+</script>

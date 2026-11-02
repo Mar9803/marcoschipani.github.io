@@ -1,243 +1,64 @@
 ---
-import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
-import Socials from "@/components/Socials.astro";
-import LinkButton from "@/components/LinkButton.astro";
-import Card from "@/components/Card.astro";
-import getSortedPosts from "@/utils/getSortedPosts";
-import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
-import { SITE } from "@/config";
-import { SOCIALS } from "@/constants";
-
-const posts = await getCollection("blog");
-const sortedPosts = getSortedPosts(posts);
-const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
-const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
+import { CHAPTERS } from "@/constants/chapters";
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const homeUrl = base ? `${base}/` : "/";
-const postsUrl = `${base}/posts/`;
-const beyondShocksUrl = `${base}/posts/beyond-the-shocks-2d-reconstruction/`;
-const sentinelUrl = `${base}/projects/sentinel/`;
-const eyLogoUrl = `${base}/EYlogo.svg`;
-const galloUrl = `${base}/gallo.png`;
-const dijonUrl = `${base}/Dijon.svg`;
+const href = (path: string) => `${base}${path}`.replace(/\/+/g, "/");
+
+const cards = [
+  ...CHAPTERS.map(chapter => ({
+    href: href(`/${chapter.id}/`),
+    kicker: chapter.kicker,
+    title: chapter.title,
+    line: chapter.card,
+  })),
+  {
+    href: href("/projects/sentinel/"),
+    kicker: "Simulazione",
+    title: "Sentinel",
+    line: "Il lab e il diario della pipeline.",
+  },
+];
 ---
 
 <Layout>
-  <Header />
-  <main id="main-content" data-layout="index" class="app-layout">
-    <section id="hero" class:list={["pt-8 pb-6"]}>
-      <h1 class="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
+  <Header wide />
+  <main id="main-content" data-layout="index" class="chapter-page mx-auto w-full max-w-5xl px-4 pb-16">
+    <section id="hero" class="pt-8 pb-8">
+      <h1 class="my-4 text-4xl font-bold tracking-tight sm:my-8 sm:text-5xl">
         Hi, I'm Marco
       </h1>
 
-      <p class="max-w-2xl text-base md:text-lg leading-relaxed text-foreground/70">
+      <p class="max-w-2xl text-base leading-relaxed text-foreground/70 md:text-lg">
         MSc Mathematics · SOC Analyst @ EY Málaga · building
         <strong class="text-foreground">Fraud &amp; Anomaly Detection</strong> ML
       </p>
 
-      <div class="mt-4 min-h-[1.5em] text-xl md:text-2xl font-bold tracking-tight text-accent">
+      <div class="mt-4 min-h-[1.5em] text-xl font-bold tracking-tight text-foreground/70 md:text-2xl">
         <span id="typewriter"></span>
         <span
           id="cursor"
-          class="ml-1 border-l-2 border-accent animate-pulse"
+          class="ml-1 border-l-2 border-foreground/70 animate-pulse"
         ></span>
       </div>
+    </section>
 
+    <ul class="grid gap-4 sm:grid-cols-2">
       {
-        SOCIALS.length > 0 && (
-          <div class="mt-4 flex max-sm:flex-col sm:items-center">
-            <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">Social Links:</div>
-            <Socials />
-          </div>
-        )
+        cards.map(card => (
+          <li>
+            <a href={card.href} class="glass-card">
+              <span class="text-sm font-medium text-foreground/70">{card.kicker}</span>
+              <span class="text-xl font-medium leading-snug">{card.title}</span>
+              <span class="text-sm leading-relaxed text-foreground/70">{card.line}</span>
+            </a>
+          </li>
+        ))
       }
-
-      <p class="mt-4 text-sm md:text-base text-foreground/60">
-        Featured project:{" "}
-        <a
-          href={sentinelUrl}
-          class="text-accent underline-offset-4 hover:underline"
-        >
-          Sentinel — fraud risk-scoring platform
-        </a>
-      </p>
-    </section>
-
-    <section id="experience" class="pt-10 pb-6 border-b border-border/50">
-      <h2 class="text-2xl font-semibold tracking-wide">Experience</h2>
-
-      <div class="mt-8 space-y-10">
-        {/* EY */}
-        <div class="flex flex-col gap-1">
-          <div class="flex items-center justify-between gap-4">
-            <div class="flex items-center gap-3">
-              <div
-                class="flex h-8 w-8 items-center justify-center rounded bg-white p-1"
-              >
-                <img
-                  src={eyLogoUrl}
-                  alt="EY"
-                  class="h-full w-full object-contain"
-                />
-              </div>
-              <span class="text-xl font-bold">EY</span>
-            </div>
-            <span class="text-sm font-mono opacity-50 shrink-0"
-              >Sep 2025 — Present</span
-            >
-          </div>
-          <p class="text-lg italic tracking-tight">
-            SOC Analyst — Detection Engineering &amp; Security Analytics
-          </p>
-          <p
-            class="text-base md:text-lg leading-relaxed text-foreground/70 max-w-2xl"
-          >
-            Detection engineering in the SOC: Azure Sentinel Workbooks and KQL
-            on high-volume security telemetry, Logic Apps playbooks for
-            enrichment and risk-based escalation, and Python/Bash pipelines to
-            normalize multi-source logs. Focus on cutting triage time and
-            false-positive noise with statistical anomaly workflows — bridging
-            security operations toward applied ML for fraud and anomaly
-            detection.
-          </p>
-        </div>
-
-        {/* Valencia */}
-        <div class="flex flex-col gap-1 border-t border-border/50 pt-8">
-          <div class="flex items-center justify-between gap-4">
-            <div class="flex items-center gap-3">
-              <div
-                class="flex h-8 w-8 items-center justify-center rounded bg-white p-1"
-              >
-                <img
-                  src={galloUrl}
-                  alt="Universitat de València"
-                  class="h-full w-full object-contain"
-                />
-              </div>
-              <span class="text-xl font-bold">Universitat de València</span>
-            </div>
-            <span class="text-sm font-mono opacity-50 shrink-0"
-              >2023 — 2024</span
-            >
-          </div>
-          <p class="text-lg italic tracking-tight">Research Student</p>
-          <p
-            class="text-base md:text-lg leading-relaxed text-foreground/70 max-w-2xl"
-          >
-            Research on monotone-preserving cubic/bicubic Hermite interpolants
-            for geometric constraint preservation, with new numerical methods
-            for the bidimensional case (
-            <a
-              href={beyondShocksUrl}
-              class="!text-accent underline decoration-dashed underline-offset-4 hover:!text-accent/80"
-            >
-              forthcoming publication track
-            </a>).
-          </p>
-        </div>
-
-        {/* Dijon */}
-        <div class="flex flex-col gap-1 border-t border-border/50 pt-8">
-          <div class="flex items-center justify-between gap-4">
-            <div class="flex items-center gap-3">
-              <div
-                class="flex h-8 w-8 shrink-0 items-center justify-center rounded bg-white p-1 overflow-hidden"
-              >
-                <img
-                  src={dijonUrl}
-                  alt="Université de Bourgogne"
-                  class="max-h-full w-auto object-contain"
-                />
-              </div>
-              <span class="text-xl font-bold">Université de Bourgogne</span>
-            </div>
-            <span class="text-sm font-mono opacity-50 shrink-0"
-              >May 2021 — Aug 2021</span
-            >
-          </div>
-          <p class="text-lg italic tracking-tight">Research Student</p>
-          <p
-            class="text-base md:text-lg leading-relaxed text-foreground/70 max-w-2xl"
-          >
-            Quantitative graph theory: free-group structure via Cayley graphs,
-            combinatorial pattern recognition, and analysis of invariant /
-            symmetry structures.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section id="skills" class="pt-10 pb-6 border-b border-border/50">
-      <h2 class="text-2xl font-semibold tracking-wide">Skills</h2>
-
-      <div class="mt-6 flex flex-wrap gap-3">
-        {
-          [
-            "Fraud & Anomaly Detection",
-            "Imbalanced Learning",
-            "Statistical Learning",
-            "Detection Engineering",
-            "KQL / Azure Sentinel",
-            "Python",
-            "FastAPI · Docker · MLflow",
-            "SQL / PostgreSQL",
-          ].map((label) => (
-            <div class="px-4 py-2 border border-border/50 bg-muted/30 rounded-md hover:border-accent/50 transition-colors">
-              <span class="font-sans text-sm font-bold">{label}</span>
-            </div>
-          ))
-        }
-      </div>
-    </section>
-
-    {
-      featuredPosts.length > 0 && (
-        <section
-          id="featured"
-          class:list={[
-            "pt-12 pb-6",
-            { "border-b border-border": recentPosts.length > 0 },
-          ]}
-        >
-          <h2 class="text-2xl font-semibold tracking-wide">Featured</h2>
-          <ul>
-            {featuredPosts.map((data) => (
-              <Card variant="h3" {...data} />
-            ))}
-          </ul>
-        </section>
-      )
-    }
-
-    {
-      recentPosts.length > 0 && (
-        <section id="recent-posts" class="pt-12 pb-6">
-          <h2 class="text-2xl font-semibold tracking-wide">Recent Posts</h2>
-          <ul>
-            {recentPosts.map(
-              (data, index) =>
-                index < SITE.postPerIndex && <Card variant="h3" {...data} />
-            )}
-          </ul>
-        </section>
-      )
-    }
-
-    {
-      sortedPosts.length > 0 && (
-        <div class="my-8 text-center">
-          <LinkButton href={postsUrl}>
-            All Posts
-            <IconArrowRight class="inline-block rtl:-rotate-180" />
-          </LinkButton>
-        </div>
-      )
-    }
+    </ul>
   </main>
   <Footer />
 </Layout>
