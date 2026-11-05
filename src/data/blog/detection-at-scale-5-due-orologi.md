@@ -2,7 +2,7 @@
 author: Marco Schipani
 pubDatetime: 2026-10-15T00:30:00Z
 title: "Due orologi"
-description: "Nel minuto si aggiorna il conteggio. Il peso del modello si muove su un altro calendario, e solo dopo una prova."
+description: "The count updates within the minute. The model weights move on another calendar, and only after a test."
 featured: false
 draft: true
 series: detection-at-scale

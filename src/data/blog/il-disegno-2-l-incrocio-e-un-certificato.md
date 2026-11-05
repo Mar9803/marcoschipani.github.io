@@ -1,7 +1,7 @@
 ---
 author: Marco Schipani
 pubDatetime: 2026-10-11T15:00:00Z
-title: "L'incrocio è un certificato"
+title: "The crossing is a certificate"
 description: "A subdivision of K3,3 forces a crossing in every drawing. In an investigation that crossing is a certificate, not an alert."
 featured: false
 draft: false

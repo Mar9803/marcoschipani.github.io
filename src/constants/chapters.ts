@@ -19,39 +19,42 @@ export type Chapter = {
 export const CHAPTERS = [
   {
     id: "fundamentals",
-    kicker: "Quaderno",
+    kicker: "Notebook",
     title: "Fundamentals",
     description:
       "Deep dive sui fondamenti. Ogni gruppo è una serie in corso, o un pezzo solo.",
-    card: "PCA e L1/L2, Voronoi, il disegno dei grafi, la ricostruzione.",
+    card: "The structures a model is built on.",
     groups: [
       { title: "ML deep dives", series: "ml-deep-dives" },
       {
-        title: "Voronoi, per insegnare il machine learning",
+        title: "Voronoi teaching ML",
         series: "voronoi-diagrams-ml",
       },
-      { title: "Il disegno non è il grafo", series: "il-disegno-non-e-il-grafo" },
       {
-        title: "Pezzi soli",
+        title: "The drawing is not the graph",
+        series: "il-disegno-non-e-il-grafo",
+      },
+      {
+        title: "",
         postIds: ["beyond-the-shocks-2d-reconstruction"],
       },
     ],
   },
   {
     id: "case-studies",
-    kicker: "Casi",
+    kicker: "Use cases",
     title: "Case studies",
     description:
       "Un sistema pubblicato, un vincolo. I fondamenti citati restano nel quaderno.",
-    card: "Letture di sistemi in produzione. Oggi, detection.",
+    card: "Readings of detection in production. Today, the cascade: the rule first, then the model.",
     groups: [{ title: "Detection", series: "detection-at-scale" }],
   },
   {
     id: "finanza",
-    kicker: "Dominio",
-    title: "Finanza",
+    kicker: "Markets",
+    title: "Finance",
     description: "Il campione storico e il prezzo.",
-    card: "Black-Scholes. Il resto del modulo entra qui quando è scritto.",
+    card: "Pricing with Black-Scholes.",
     groups: [{ title: "", postIds: ["black-scholes"] }],
   },
   {
@@ -60,7 +63,7 @@ export const CHAPTERS = [
     title: "Software",
     description:
       "Design e informatica, nella stessa lista. Una serie nasce al secondo pezzo sullo stesso oggetto.",
-    card: "La mappa di design e Docker.",
+    card: "System design and ML system design.",
     groups: [
       {
         title: "",

@@ -10,13 +10,12 @@ I love to talk, and to tell the story of what fascinates me. This blog is where 
 
 > I’m a fan of the unglamorous side of industry: it’s exactly where real maths could be hiding, and maths is the fastest hype-killer I know.
 
-- **Explainers that start from fundamentals.** The long way around, from the ground up.
-- **Maths I find beautiful,** including my own research on reconstructing surfaces with jump discontinuities.
+- **Explainers from fundamentals.** The long way around, from the ground up, including my research on reconstructing surfaces with jump discontinuities.
 
   <div class="article-cta">
     <p>Want to know more?</p>
     <a href="/marcoschipani.github.io/posts/beyond-the-shocks-2d-reconstruction/">READ THE FULL ARTICLE <span>→</span></a>
   </div>
-- **ML in production and case studies.** What happens around the model (data, pipelines, monitoring), which is usually where things succeed or fail.
-- **Finance and markets,** looked at through history, numbers and simulations.
-- **Experiments and curiosities,** like my <a class="link-blue" href="/marcoschipani.github.io/projects/sentinel/">fraud-detection simulator</a>, built so you can play with the ideas instead of just reading about them, plus whatever rabbit hole I fell into this month.
+- **Production ML.** What happens around the model — data, pipelines, and monitoring — which is where a fraud system succeeds or fails.
+- **Finance.** Markets through history, numbers, and simulation: pricing, starting from Black-Scholes.
+- **Labs.** <a class="link-blue" href="/marcoschipani.github.io/projects/sentinel/">SentinelGraph</a>, a hybrid fraud pipeline you can stress-test instead of only reading about.

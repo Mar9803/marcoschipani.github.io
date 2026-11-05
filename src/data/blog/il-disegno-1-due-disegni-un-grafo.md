@@ -1,8 +1,8 @@
 ---
 author: Marco Schipani
 pubDatetime: 2026-10-11T09:00:00Z
-title: "Due disegni, un grafo"
-description: "Due disegni dello stesso grafo possono incrociarsi in modi diversi. Kuratowski dice quando l'incrocio non dipende dal tratto."
+title: "Two drawings, one graph"
+description: "Two drawings of the same graph can cross in different ways. Kuratowski says when the crossing does not depend on the stroke."
 featured: false
 draft: false
 series: il-disegno-non-e-il-grafo

@@ -2,7 +2,7 @@
 author: Marco Schipani
 pubDatetime: 2026-10-12T00:30:00Z
 title: "Si aggrega il comportamento, non si memorizza l'id"
-description: "La feature che si aggiorna da sola segue un attacco che cambia forma, senza aspettare il retrain."
+description: "The feature that updates on its own follows an attack that changes shape, without waiting for the retrain."
 featured: false
 draft: true
 series: detection-at-scale

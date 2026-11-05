@@ -2,7 +2,7 @@
 author: Marco Schipani
 pubDatetime: 2026-10-09T00:30:00Z
 title: "Il modello arriva dopo la regola"
-description: "Uber, nel 2017, ha messo i modelli dentro un motore di regole. In produzione l'unità è la cascata."
+description: "In 2017, Uber put the models inside a rules engine. In production, the unit is the cascade."
 featured: false
 draft: false
 series: detection-at-scale

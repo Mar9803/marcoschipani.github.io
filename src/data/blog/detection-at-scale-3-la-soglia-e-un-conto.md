@@ -2,7 +2,7 @@
 author: Marco Schipani
 pubDatetime: 2026-10-13T00:30:00Z
 title: "La soglia è un conto, non una metrica"
-description: "Il modello disegna la curva. La policy sceglie il punto, e quel punto dipende dal margine."
+description: "The model draws the curve. Policy chooses the point, and that point depends on the margin."
 featured: false
 draft: true
 series: detection-at-scale

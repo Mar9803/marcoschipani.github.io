@@ -2,7 +2,7 @@
 author: Marco Schipani
 pubDatetime: 2026-10-16T00:30:00Z
 title: "Non si promuove un modello che è meglio solo in media"
-description: "Un guadagno aggregato può essere una regressione per i merchant piccoli, e i pagamenti bloccati non hanno label."
+description: "An aggregate gain can be a regression for small merchants, and blocked payments have no label."
 featured: false
 draft: true
 series: detection-at-scale

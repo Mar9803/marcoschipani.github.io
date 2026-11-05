@@ -2,7 +2,7 @@
 author: Marco Schipani
 pubDatetime: 2026-10-14T00:30:00Z
 title: "L'IOC è già vecchio quando lo pubblichi"
-description: "Hash, dominio e IP sono artefatti che l'attaccante sostituisce. Quello che resta è il comportamento rispetto a una storia."
+description: "Hash, domain, and IP are artifacts the attacker replaces. What remains is behavior against a history."
 featured: false
 draft: true
 series: detection-at-scale
