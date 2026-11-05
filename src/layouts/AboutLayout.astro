@@ -3,16 +3,20 @@ import type { MarkdownLayoutProps } from "astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Breadcrumb from "@/components/Breadcrumb.astro";
+import BackButton from "@/components/BackButton.astro";
 import Layout from "./Layout.astro";
 import { SITE } from "@/config";
 
 type Props = MarkdownLayoutProps<{ title: string }>;
 
 const { frontmatter } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const homeUrl = base ? `${base}/` : "/";
 ---
 
 <Layout title={`${frontmatter.title} | ${SITE.title}`}>
   <Header />
+  <BackButton href={homeUrl} />
   <Breadcrumb />
   <main id="main-content" class="app-layout">
     <section id="about" class="app-prose mb-28 max-w-app prose-img:border-0">
