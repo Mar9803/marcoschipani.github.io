@@ -15,11 +15,11 @@ html[data-theme="light"] {
 
 
 html[data-theme="dark"] {
-  --background: #101011;
+  --background: #0b1020;
   --foreground: #eaedf3;
   --accent: #82827ee4;
-  --muted: #1a1a1a;
-  --border: #333333;
+  --muted: #151a27;
+  --border: #2a3142;
 }
 
 
@@ -65,6 +65,10 @@ html[data-theme="dark"] {
   @apply mx-auto w-full max-w-app px-4;
 }
 
+@utility wide-page {
+  @apply mx-auto w-full max-w-[90rem] px-[clamp(1.25rem,4vw,3.5rem)];
+}
+
 .active-nav {
   @apply underline decoration-wavy decoration-2 underline-offset-8;
 }
@@ -104,6 +108,7 @@ div.math-formula {
 
 .glass-card {
   color: inherit;
+  position: relative;
   display: flex;
   min-height: 9.5rem;
   flex-direction: column;
@@ -123,11 +128,44 @@ div.math-formula {
   box-shadow:
     inset 0 1px 0 #fff,
     0 12px 28px rgba(24, 28, 36, 0.08);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.glass-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    210px circle at var(--px, 50%) var(--py, 28%),
+    color-mix(in srgb, var(--foreground) 14%, transparent),
+    transparent 64%
+  );
+  z-index: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.glass-card > :not(.card-motif) {
+  position: relative;
+  z-index: 1;
+}
+
+.glass-card:hover::after,
+.glass-card:focus-visible::after {
+  opacity: 1;
 }
 
 .glass-card:hover,
 .glass-card:focus-visible {
-  border-color: var(--foreground);
+  border-color: color-mix(in srgb, var(--foreground) 70%, transparent);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 0 0 1px color-mix(in srgb, var(--foreground) 16%, transparent),
+    0 16px 36px rgba(24, 28, 36, 0.12);
 }
 
 html[data-theme="dark"] .chapter-page {
@@ -137,14 +175,201 @@ html[data-theme="dark"] .chapter-page {
 }
 
 html[data-theme="dark"] .glass-card {
-  border-color: rgba(236, 238, 242, 0.38);
+  border-color: rgba(236, 238, 242, 0.22);
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.2),
-    rgba(255, 255, 255, 0.06) 38%,
-    rgba(170, 176, 186, 0.05)
+    rgba(255, 255, 255, 0.14),
+    rgba(255, 255, 255, 0.05) 38%,
+    rgba(170, 176, 186, 0.04)
   );
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
     0 16px 36px rgba(0, 0, 0, 0.35);
+}
+
+html[data-theme="dark"] .glass-card:hover,
+html[data-theme="dark"] .glass-card:focus-visible {
+  border-color: color-mix(in srgb, var(--foreground) 78%, transparent);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 0 0 1px color-mix(in srgb, var(--foreground) 22%, transparent),
+    0 18px 42px rgba(0, 0, 0, 0.45);
+}
+
+.card-copy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+}
+
+.card-motif {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 1;
+  width: 3.2rem;
+  height: 2rem;
+  color: var(--foreground);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+@media (min-width: 40rem) {
+  .card-copy {
+    padding-inline-end: 3.4rem;
+  }
+
+  .card-motif {
+    top: 0.85rem;
+    right: 0.85rem;
+    width: 4.4rem;
+    height: 2.8rem;
+  }
+}
+
+.glass-card:hover .card-motif,
+.glass-card:focus-visible .card-motif {
+  opacity: 0.9;
+}
+
+.motif-draw {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.35;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.glass-card:hover .motif-draw,
+.glass-card:focus-visible .motif-draw {
+  animation: motif-draw 0.7s ease forwards;
+}
+
+.motif-dot {
+  fill: currentColor;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.45s ease;
+}
+
+.glass-card:hover .motif-cluster .a,
+.glass-card:focus-visible .motif-cluster .a {
+  transform: translate(9px, -7px);
+}
+
+.glass-card:hover .motif-cluster .b,
+.glass-card:focus-visible .motif-cluster .b {
+  transform: translate(0, 8px);
+}
+
+.glass-card:hover .motif-cluster .c,
+.glass-card:focus-visible .motif-cluster .c {
+  transform: translate(-10px, -6px);
+}
+
+.motif-pulse {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.35;
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+}
+
+.glass-card:hover .motif-pulse,
+.glass-card:focus-visible .motif-pulse {
+  animation: motif-pulse 1.6s ease-out infinite;
+}
+
+.motif-core {
+  fill: currentColor;
+}
+
+@keyframes motif-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes motif-pulse {
+  0% {
+    transform: scale(0.55);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.15);
+    opacity: 0;
+  }
+}
+
+.lit-hit {
+  position: relative;
+  isolation: isolate;
+  border-radius: 0.6rem;
+}
+
+.lit-hit::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -0.35rem -0.45rem;
+  border-radius: inherit;
+  background: radial-gradient(
+    90px circle at var(--px, 50%) var(--py, 50%),
+    color-mix(in srgb, var(--foreground) 16%, transparent),
+    transparent 70%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.lit-hit:hover::before,
+.lit-hit:focus-visible::before {
+  opacity: 1;
+}
+
+.lit-hit:hover,
+.lit-hit:focus-visible {
+  color: var(--foreground);
+}
+
+.lit-hit:hover svg,
+.lit-hit:focus-visible svg {
+  stroke: var(--foreground);
+}
+
+.ambient-field {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass-card:hover .motif-draw,
+  .glass-card:focus-visible .motif-draw {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+
+  .glass-card:hover .motif-pulse,
+  .glass-card:focus-visible .motif-pulse {
+    animation: none;
+    opacity: 0.75;
+    transform: none;
+  }
+
+  .motif-dot {
+    transition: none;
+  }
 }

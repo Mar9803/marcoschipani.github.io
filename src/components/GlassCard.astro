@@ -1,0 +1,54 @@
+---
+interface Props {
+  href: string;
+  motif?: "geometry" | "cluster" | "arc" | "nodes" | "pulse";
+}
+
+const { href, motif } = Astro.props;
+---
+
+<a href={href} class="glass-card">
+  <span class="card-copy">
+    <slot />
+  </span>
+  {
+    motif && (
+      <span class="card-motif" aria-hidden="true">
+        {motif === "geometry" && (
+          <svg viewBox="0 0 80 48" class="h-full w-full">
+            <path
+              class="motif-draw"
+              pathLength="1"
+              d="M8 40 L26 8 L62 20 L48 42 Z M26 8 L34 42 M62 20 L16 30"
+            />
+          </svg>
+        )}
+        {motif === "cluster" && (
+          <svg viewBox="0 0 80 48" class="motif-cluster h-full w-full">
+            <circle class="motif-dot a" cx="16" cy="36" r="2.4" />
+            <circle class="motif-dot b" cx="40" cy="10" r="2.4" />
+            <circle class="motif-dot c" cx="66" cy="34" r="2.4" />
+          </svg>
+        )}
+        {motif === "arc" && (
+          <svg viewBox="0 0 80 48" class="h-full w-full">
+            <path class="motif-draw" pathLength="1" d="M6 36 C 22 36, 30 8, 74 14" />
+          </svg>
+        )}
+        {motif === "nodes" && (
+          <svg viewBox="0 0 80 48" class="h-full w-full">
+            <path class="motif-draw" pathLength="1" d="M16 32 L64 14" />
+            <circle class="motif-core" cx="16" cy="32" r="3" />
+            <circle class="motif-core" cx="64" cy="14" r="3" />
+          </svg>
+        )}
+        {motif === "pulse" && (
+          <svg viewBox="0 0 80 48" class="h-full w-full">
+            <circle class="motif-pulse" cx="58" cy="16" r="7" />
+            <circle class="motif-core" cx="58" cy="16" r="2.2" />
+          </svg>
+        )}
+      </span>
+    )
+  }
+</a>

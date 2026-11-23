@@ -1,0 +1,12 @@
+---
+interface Props {
+  variant: "drift" | "voronoi";
+}
+
+const { variant } = Astro.props;
+---
+
+<canvas class="ambient-field" data-ambient={variant} aria-hidden="true"></canvas>
+<script>
+  import "@/scripts/ambient-field";
+</script>

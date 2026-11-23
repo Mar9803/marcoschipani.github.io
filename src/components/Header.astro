@@ -55,24 +55,23 @@ const isActive = (path: string) => {
   Skip to content
 </a>
 
-<header
-  class:list={[
-    "flex flex-col items-center justify-between sm:flex-row",
-    wide ? "mx-auto w-full max-w-5xl px-4" : "app-layout",
-  ]}
->
+<header class:list={[wide ? "w-full" : "app-layout"]}>
   <div
-    id="top-nav-wrap"
     class:list={[
-      "py-4 sm:py-6",
       "border-b border-border",
-      "relative w-full bg-background",
-      "flex items-baseline justify-between sm:items-center",
+      wide ? "w-full bg-background/75 backdrop-blur-md" : "relative w-full bg-background",
     ]}
   >
+    <div
+      id="top-nav-wrap"
+      class:list={[
+        "relative flex items-baseline justify-between py-4 sm:items-center sm:py-6",
+        wide && "wide-page",
+      ]}
+    >
     <a
       href={base}
-      class="relative z-10 shrink-0 py-1 text-xl leading-8 font-semibold whitespace-nowrap sm:my-auto sm:text-2xl sm:leading-none"
+      class="lit-hit relative z-10 shrink-0 py-1 text-xl leading-8 font-semibold whitespace-nowrap sm:my-auto sm:text-2xl sm:leading-none"
     >
       Marco Schipani
     </a>
@@ -82,7 +81,7 @@ const isActive = (path: string) => {
     >
       <button
         id="menu-btn"
-        class="focus-outline self-end p-2 sm:hidden"
+        class="lit-hit focus-outline self-end p-2 sm:hidden"
         aria-label="Open Menu"
         aria-expanded="false"
         aria-controls="menu-items"
@@ -94,19 +93,22 @@ const isActive = (path: string) => {
         id="menu-items"
         class:list={[
           "mt-4 hidden w-56 grid gap-1 rounded-2xl border border-border bg-background p-3",
-          "[&>li>a]:block [&>li>a]:px-3 [&>li>a]:py-2 [&>li>a]:font-medium [&>li>a]:hover:text-accent sm:[&>li>a]:px-2 sm:[&>li>a]:py-1",
+          "[&>li>a]:block [&>li>a]:px-3 [&>li>a]:py-2 [&>li>a]:font-medium sm:[&>li>a]:px-2 sm:[&>li>a]:py-1",
           "sm:mt-0 sm:flex sm:w-auto sm:items-center sm:gap-x-4 sm:rounded-none sm:border-0 sm:bg-transparent sm:p-0",
         ]}
       >
         <li>
-          <a href={`${base}/about/`} class:list={{ "active-nav": isActive("/about") }}>
+          <a
+            href={`${base}/about/`}
+            class:list={["lit-hit", { "active-nav": isActive("/about") }]}
+          >
             About
           </a>
         </li>
         <li>
           <a
             href={`${base}/projects/sentinel/`}
-            class:list={{ "active-nav": isActive("/projects/sentinel") }}
+            class:list={["lit-hit", { "active-nav": isActive("/projects/sentinel") }]}
           >
             Sentinel
           </a>
@@ -116,7 +118,7 @@ const isActive = (path: string) => {
             <li class="flex items-center">
               <LinkButton
                 href={github.href}
-                class="focus-outline p-2 sm:p-1"
+                class="lit-hit focus-outline p-2 sm:p-1"
                 title={github.linkTitle}
                 aria-label={github.linkTitle}
               >
@@ -130,7 +132,7 @@ const isActive = (path: string) => {
             <li class="flex items-center">
               <LinkButton
                 href={linkedin.href}
-                class="focus-outline p-2 sm:p-1"
+                class="lit-hit focus-outline p-2 sm:p-1"
                 title={linkedin.linkTitle}
                 aria-label={linkedin.linkTitle}
               >
@@ -143,7 +145,7 @@ const isActive = (path: string) => {
           <LinkButton
             href={`${base}/search/`}
             class:list={[
-              "focus-outline flex p-3 sm:p-1",
+              "lit-hit focus-outline flex p-3 sm:p-1",
               { "[&>svg]:stroke-accent": isActive("/search") },
             ]}
             title="Search"
@@ -158,7 +160,7 @@ const isActive = (path: string) => {
             <li class="col-span-1 flex items-center justify-center">
               <button
                 id="theme-btn"
-                class="focus-outline relative size-12 p-4 sm:size-8 hover:[&>svg]:stroke-accent"
+                class="lit-hit focus-outline relative size-12 p-4 sm:size-8"
                 title="Toggles light & dark"
                 aria-label="auto"
                 aria-live="polite"
@@ -171,6 +173,7 @@ const isActive = (path: string) => {
         }
       </ul>
     </nav>
+    </div>
   </div>
 </header>
 

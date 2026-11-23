@@ -2,11 +2,20 @@
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
+import AmbientField from "@/components/AmbientField.astro";
+import GlassCard from "@/components/GlassCard.astro";
 import { CHAPTERS } from "@/constants/chapters";
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const homeUrl = base ? `${base}/` : "/";
 const href = (path: string) => `${base}${path}`.replace(/\/+/g, "/");
+
+const motifs = {
+  fundamentals: "geometry",
+  "case-studies": "cluster",
+  finanza: "arc",
+  software: "nodes",
+} as const;
 
 const cards = [
   ...CHAPTERS.map(chapter => ({
@@ -14,19 +23,22 @@ const cards = [
     kicker: chapter.kicker,
     title: chapter.title,
     line: chapter.card,
+    motif: motifs[chapter.id],
   })),
   {
     href: href("/projects/sentinel/"),
     kicker: "Lab",
     title: "SentinelGraph",
     line: "Anti-fraud lab: rules, XGBoost, and an autoencoder, in real time.",
+    motif: "pulse" as const,
   },
 ];
 ---
 
 <Layout>
+  <AmbientField variant="drift" />
   <Header wide />
-  <main id="main-content" data-layout="index" class="chapter-page mx-auto w-full max-w-5xl px-4 pb-16">
+  <main id="main-content" data-layout="index" class="wide-page pb-16">
     <section id="hero" class="pt-8 pb-8">
       <h1 class="my-4 text-4xl font-bold tracking-tight sm:my-8 sm:text-5xl">
         Hi, I'm Marco
@@ -46,21 +58,21 @@ const cards = [
       </div>
     </section>
 
-    <ul class="grid gap-4 sm:grid-cols-2">
+    <ul class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
       {
         cards.map(card => (
           <li>
-            <a href={card.href} class="glass-card">
+            <GlassCard href={card.href} motif={card.motif}>
               <span class="text-sm font-medium text-foreground/70">{card.kicker}</span>
-              <span class="text-xl font-medium leading-snug">{card.title}</span>
+              <span class="card-title text-xl font-medium leading-snug">{card.title}</span>
               <span class="text-sm leading-relaxed text-foreground/70">{card.line}</span>
-            </a>
+            </GlassCard>
           </li>
         ))
       }
     </ul>
   </main>
-  <Footer />
+  <Footer wide />
 </Layout>
 
 <script is:inline define:vars={{ homeUrl }}>
