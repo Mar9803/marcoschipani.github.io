@@ -46,7 +46,7 @@ export const CHAPTERS = [
     title: "Case studies",
     description:
       "Un sistema pubblicato, un vincolo. I fondamenti citati restano nel quaderno.",
-    card: "Readings of detection in production. Today, the cascade: the rule first, then the model.",
+    card: "Machine learning at scale: real cases and the papers behind them.",
     groups: [{ title: "Detection", series: "detection-at-scale" }],
   },
   {
@@ -63,7 +63,7 @@ export const CHAPTERS = [
     title: "Software",
     description:
       "Design e informatica, nella stessa lista. Una serie nasce al secondo pezzo sullo stesso oggetto.",
-    card: "System design and ML system design.",
+    card: "Serving, tracking, and reproducible deploys.",
     groups: [
       {
         title: "",
