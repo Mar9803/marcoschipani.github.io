@@ -1,12 +1,18 @@
 ---
 interface Props {
-  variant: "drift" | "voronoi";
+  variant: "birds" | "voronoi";
 }
 
 const { variant } = Astro.props;
 ---
 
-<canvas class="ambient-field" data-ambient={variant} aria-hidden="true"></canvas>
+{
+  variant === "voronoi" ? (
+    <canvas class="ambient-field" data-ambient="voronoi" aria-hidden="true"></canvas>
+  ) : (
+    <div class="ambient-field" data-ambient="birds" aria-hidden="true"></div>
+  )
+}
 <script>
   import "@/scripts/ambient-field";
 </script>

@@ -60,145 +60,89 @@ function sizeOf(canvas: HTMLCanvasElement) {
 function mount() {
   stopCurrent();
   stopCurrent = () => {};
-  const canvas = document.querySelector<HTMLCanvasElement>("canvas[data-ambient]");
-  if (!canvas) return;
-  stopCurrent =
-    canvas.dataset.ambient === "voronoi" ? startVoronoi(canvas) : startDrift(canvas);
+  const field = document.querySelector<HTMLElement>("[data-ambient]");
+  if (!field) return;
+  if (field.dataset.ambient === "voronoi" && field instanceof HTMLCanvasElement) {
+    stopCurrent = startVoronoi(field);
+    return;
+  }
+  if (field.dataset.ambient === "birds") stopCurrent = startVantaBirds(field);
 }
 
-function startDrift(canvas: HTMLCanvasElement) {
-  const sized = sizeOf(canvas);
-  if (!sized) return () => {};
-  let { w, h, ctx } = sized;
-  const count = w < 768 ? 32 : 64;
-  const particles = Array.from({ length: count }, (_, i) => ({
-    x: Math.random() * w,
-    y: Math.random() * h,
-    vx: (Math.random() - 0.5) * 0.18,
-    vy: (Math.random() - 0.5) * 0.18,
-    warm: i > 0 && i % 7 === 0,
-    r: i === 0 ? 2.5 : 0.8 + Math.random() * 0.9,
-  }));
-  let pointer: { x: number; y: number } | null = null;
-  let frame = 0;
-  let alive = true;
-  let running = false;
+type VantaEffect = {
+  destroy: () => void;
+  setOptions: (options: Record<string, unknown>) => void;
+};
 
-  const draw = () => {
-    const colors = ink();
-    const still = prefersStill();
-    const leader = particles[0];
-    if (!leader) return;
+function resolveBirds(mod: unknown) {
+  let current = mod;
+  for (let depth = 0; depth < 3; depth++) {
+    if (typeof current === "function") {
+      return current as (options: Record<string, unknown>) => VantaEffect;
+    }
+    if (current && typeof current === "object" && "default" in current) {
+      current = (current as { default: unknown }).default;
+      continue;
+    }
+    break;
+  }
+  return null;
+}
 
-    if (pointer) {
-      leader.x += (pointer.x - leader.x) * 0.08;
-      leader.y += (pointer.y - leader.y) * 0.08;
-    } else if (!still) {
-      leader.x += leader.vx;
-      leader.y += leader.vy;
-    }
-
-    for (let i = still ? 1 : 0; i < particles.length; i++) {
-      if (i === 0) continue;
-      const p = particles[i];
-      if (!p || still) continue;
-      p.x += p.vx;
-      p.y += p.vy;
-      if (p.x < -4) p.x = w + 4;
-      if (p.x > w + 4) p.x = -4;
-      if (p.y < -4) p.y = h + 4;
-      if (p.y > h + 4) p.y = -4;
-    }
-    if (!pointer && !still) {
-      if (leader.x < -4) leader.x = w + 4;
-      if (leader.x > w + 4) leader.x = -4;
-      if (leader.y < -4) leader.y = h + 4;
-      if (leader.y > h + 4) leader.y = -4;
-    }
-
-    ctx.clearRect(0, 0, w, h);
-    if (pointer) {
-      ctx.beginPath();
-      ctx.fillStyle = colors.halo;
-      ctx.arc(leader.x, leader.y, 26, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    for (const p of particles) {
-      ctx.beginPath();
-      ctx.fillStyle = p === leader ? colors.leader : p.warm ? colors.warm : colors.dot;
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fill();
-    }
+function birdSettings() {
+  const dark = document.documentElement.dataset.theme !== "light";
+  return {
+    mouseControls: true,
+    touchControls: true,
+    gyroControls: false,
+    minHeight: 200,
+    minWidth: 200,
+    scale: 1,
+    scaleMobile: 1,
+    backgroundColor: dark ? 0x07192f : 0xfdfdfd,
+    backgroundAlpha: 1,
+    color1: 0xff0000,
+    color2: 0x00d1ff,
+    colorMode: "varianceGradient",
+    quantity: 3,
+    birdSize: 1,
+    wingSpan: 30,
+    speedLimit: 2,
+    separation: 8,
+    alignment: 87,
+    cohesion: 20,
   };
+}
 
-  const loop = () => {
-    if (!alive || !canvas.isConnected) {
-      running = false;
-      return;
-    }
-    if (document.hidden) {
-      running = false;
-      return;
-    }
-    draw();
-    const leader = particles[0];
-    const settled =
-      prefersStill() &&
-      (!pointer || !leader || Math.hypot(pointer.x - leader.x, pointer.y - leader.y) < 0.8);
-    if (settled) {
-      running = false;
-      return;
-    }
-    frame = requestAnimationFrame(loop);
-  };
+function startVantaBirds(el: HTMLElement) {
+  if (prefersStill()) return () => {};
+  let effect: VantaEffect | null = null;
+  let observer: MutationObserver | null = null;
+  let cancelled = false;
 
-  const kick = () => {
-    if (!alive || running) return;
-    running = true;
-    frame = requestAnimationFrame(loop);
-  };
-
-  const onPointer = (event: PointerEvent) => {
-    pointer = { x: event.clientX, y: event.clientY };
-    kick();
-  };
-  const onLeave = () => {
-    pointer = null;
-    kick();
-  };
-  const onResize = () => {
-    const next = sizeOf(canvas);
-    if (!next) return;
-    const sx = next.w / Math.max(w, 1);
-    const sy = next.h / Math.max(h, 1);
-    w = next.w;
-    h = next.h;
-    ctx = next.ctx;
-    for (const p of particles) {
-      p.x *= sx;
-      p.y *= sy;
-    }
-    draw();
-  };
-  const onVis = () => {
-    if (!document.hidden) kick();
-  };
-
-  window.addEventListener("pointermove", onPointer, { passive: true });
-  document.documentElement.addEventListener("pointerleave", onLeave);
-  window.addEventListener("resize", onResize);
-  document.addEventListener("visibilitychange", onVis);
-  draw();
-  if (!prefersStill()) kick();
+  void (async () => {
+    const [THREE, birdsMod] = await Promise.all([
+      import("three"),
+      import("vanta/dist/vanta.birds.min"),
+    ]);
+    if (cancelled || !el.isConnected) return;
+    const factory = resolveBirds(birdsMod);
+    if (!factory) return;
+    effect = factory({ el, THREE, ...birdSettings() });
+    if (!effect?.destroy) return;
+    const current = effect;
+    observer = new MutationObserver(() => current.setOptions(birdSettings()));
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+  })();
 
   return () => {
-    alive = false;
-    cancelAnimationFrame(frame);
-    window.removeEventListener("pointermove", onPointer);
-    document.documentElement.removeEventListener("pointerleave", onLeave);
-    window.removeEventListener("resize", onResize);
-    document.removeEventListener("visibilitychange", onVis);
+    cancelled = true;
+    observer?.disconnect();
+    effect?.destroy();
+    effect = null;
   };
 }
 

@@ -355,6 +355,10 @@ html[data-theme="dark"] .glass-card:focus-visible {
   pointer-events: none;
 }
 
+.ambient-field canvas {
+  display: block;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .glass-card:hover .motif-draw,
   .glass-card:focus-visible .motif-draw {
